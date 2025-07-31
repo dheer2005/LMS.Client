@@ -1,0 +1,45 @@
+.card {
+  overflow: hidden;
+  width: 17.5rem;
+  height: 400px;
+}
+
+.card-title {
+  font-size: 12px;
+}
+
+.card-text {
+  font-size: 12px;
+}
+
+.description-text {
+  height: 70px;
+  overflow: auto;
+  margin-bottom: 5px;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #4CAF50 #f1f1f1;
+}
+
+/* WebKit browsers (Chrome, Edge, Safari) */
+.description-text::-webkit-scrollbar {
+  width: 2px;
+  height: 6px; /* For horizontal scroll if needed */
+}
+
+.description-text::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.description-text::-webkit-scrollbar-thumb {
+  background-color: #4CAF50;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+.description-text::-webkit-scrollbar-thumb:hover {
+  background-color: #388E3C;
+}

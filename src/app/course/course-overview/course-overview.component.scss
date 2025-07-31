@@ -1,0 +1,18 @@
+.video-scroll-container {
+  height: 300px;
+  overflow-y: auto;
+  padding-right: 5px;
+  scrollbar-width: thin;
+}
+
+.video-item {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.video-title {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

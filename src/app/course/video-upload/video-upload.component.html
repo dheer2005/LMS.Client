@@ -1,0 +1,55 @@
+<div class="container mt-5 col-md-6">
+  <div class="card p-4 shadow-sm">
+    <h4 class="mb-3 text-primary">📹 Upload Course Video</h4>
+
+    <form (ngSubmit)="uploadVideo()" enctype="multipart/form-data">
+      
+      <!-- Course Selection -->
+      <div class="mb-3">
+        <label class="form-label">Select Course</label>
+        <select
+          class="form-select"
+          [(ngModel)]="selectedCourseId"
+          name="courseId"
+          required>
+          <option value="" disabled selected>Select a course</option>
+          <option *ngFor="let course of myCourses" [value]="course.id">
+            {{ course.title }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Video Title -->
+      <div class="mb-3">
+        <label class="form-label">Video Title</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="title"
+          name="title"
+          required
+        />
+      </div>
+
+      <!-- File Input -->
+      <div class="mb-3">
+        <label class="form-label">Select Video File</label>
+        <input
+          type="file"
+          class="form-control"
+          (change)="onFileSelected($event)"
+          accept="video/*"
+          required
+        />
+        <small *ngIf="selectedFile" class="text-muted">
+          📁 Selected: {{ selectedFile.name }}
+        </small>
+      </div>
+
+      <!-- Submit Button -->
+      <button class="btn btn-primary w-100" type="submit">
+        ⬆️ Upload
+      </button>
+    </form>
+  </div>
+</div>

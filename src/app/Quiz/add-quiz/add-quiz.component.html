@@ -1,0 +1,9 @@
+<div class="container mt-4">
+  <form (ngSubmit)="submitQuiz()">
+    <div class="form-group">
+      <label>Quiz Title</label>
+      <input type="text" [(ngModel)]="quizTitle" name="title" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Create Quiz</button>
+  </form>
+</div>

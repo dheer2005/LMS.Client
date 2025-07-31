@@ -1,0 +1,20 @@
+<div class="container mt-5">
+  <h4 class="mb-3 text-primary">📚 My Created Courses</h4>
+  <div *ngIf="courses.length === 0" class="alert alert-warning">No courses created yet.</div>
+
+  <div class="row">
+    <div *ngFor="let course of courses" class="col-md-4">
+      <div class="card mb-3 shadow-sm " style="overflow: hidden;">
+        <img *ngIf="course.thumbnailPath" [src]="course.thumbnailPath" class="card-img-top" alt="Thumbnail" width="10" height="230" />
+        <div class="card-body">
+          <h5 class="card-title">{{ course.title }}</h5>
+          <div class="description-text">
+            <p class="card-text">{{ course.description }}</p>
+          </div>
+          <button class="btn btn-primary" (click)="goToUpload(course.id!)">📹 Upload Video</button>
+          <button class="btn btn-outline-info ms-2" [routerLink]="['/course-overview', course.id]">👁️ View Overview</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

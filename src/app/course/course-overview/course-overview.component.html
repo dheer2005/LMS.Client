@@ -1,0 +1,84 @@
+<div class="container-fluid mt-4">
+  <div class="row">
+    <!-- Main Video Section -->
+    <div class="col-md-8">
+      <div *ngIf="selectedVideo">
+        <h4 class="mb-3">{{ selectedVideo.title }}</h4>
+        <video
+          width="100%"
+          height="300"
+          controls
+          [src]="selectedVideo.filePath"
+        ></video>
+      </div>
+      <div *ngIf="!selectedVideo" class="alert alert-info">
+        Select a video to play
+      </div>
+      <div *ngIf="course?.description" class="mt-3">
+        <h5>📝 Course Description</h5>
+        <p>{{ course.description }}</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="mb-4">
+        <h5>🧪 Quizzes</h5>
+        <div *ngIf="quizzes.length > 0">
+          <button
+            *ngFor="let quiz of quizzes"
+            class="btn btn-outline-primary w-100 my-1"
+            [routerLink]="['/quiz-detail', quiz.id]"
+          >
+            {{ quiz.title }}
+          </button>
+        </div>
+        <div *ngIf="quizzes.length === 0" class="alert alert-warning">
+          No quizzes available yet.
+        </div>
+        <button *ngIf="userRole == 'Teacher'" class="btn btn-success w-100 mt-2" (click)="addQuiz()">
+          ➕ Add Quiz
+        </button>
+      </div>
+
+      <!-- Videos List -->
+      <h5>📹 Course Videos</h5>
+      <input
+        type="text"
+        class="form-control mb-3"
+        placeholder="🔍 Search videos..."
+        [(ngModel)]="searchTerm"
+      />
+      <div class="list-group video-scroll-container">
+        <button
+          *ngFor="let video of filteredVideos"
+          class="list-group-item list-group-item-action video-item"
+          (click)="playVideo(video)"
+          (mouseenter)="video.hover = true"
+          (mouseleave)="video.hover = false"
+        >
+          <div class="video-title text-primary fw-semibold mb-1">
+            {{ video.title }}
+          </div>
+          <img
+            *ngIf="!video.hover"
+            [src]="video.thumbnailPath"
+            width="100%"
+            height="100"
+            style="object-fit: cover; border-radius: 5px"
+          />
+          <video
+            *ngIf="video.hover"
+            #videoPreview
+            [src]="video.filePath"
+            muted
+            autoplay
+            width="100%"
+            height="100"
+            style="object-fit: cover; border-radius: 5px"
+            (loadedmetadata)="videoPreview.play()"
+          ></video>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

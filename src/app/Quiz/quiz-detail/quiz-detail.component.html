@@ -1,0 +1,84 @@
+<div class="container mt-4" *ngIf="quiz">
+  <h3 class="mb-4">{{ quiz.title }}</h3>
+
+  <!-- 🧑‍🎓 Student View -->
+  <form *ngIf="userRole === 'Student' && !scoreResult" (ngSubmit)="submitQuiz()">
+    <div *ngFor="let q of quiz.questions" class="mb-4">
+      <h5>{{ q.questionText }}</h5>
+      <div class="d-flex flex-column gap-2">
+        <div
+          *ngFor="let opt of ['A', 'B', 'C', 'D']"
+          (click)="answers[q.questionId] = opt"
+          class="p-2 border rounded selectable-option"
+          [ngClass]="{
+            'bg-primary text-white': answers[q.questionId] === opt,
+            'bg-light': answers[q.questionId] !== opt
+          }"
+          style="cursor: pointer"
+        >
+          <strong>{{ opt }}.</strong> {{ q['option' + opt] }}
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-3 mb-3">Submit</button>
+  </form>
+
+  <!-- 👨‍🏫 Teacher View -->
+  <form *ngIf="userRole === 'Teacher'" (ngSubmit)="addQuestionToQuiz()">
+    <div *ngFor="let q of quiz.questions" class="mb-4">
+      <h5>{{ q.questionText }}</h5>
+      <div class="d-flex flex-column gap-2">
+        <div
+          *ngFor="let opt of ['A', 'B', 'C', 'D']"
+          class="p-2 border rounded"
+          [ngClass]="{
+            'bg-success text-white': q.correctOption === opt,
+            'bg-light': q.correctOption !== opt
+          }"
+        >
+          <strong>{{ opt }}.</strong> {{ q['option' + opt] }}
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-3 mb-2">➕ Add Question</button>
+  </form>
+
+  <div *ngIf="userRole== 'Student' && scoreResult" class="alert alert-success mt-4 p-4 rounded shadow-sm border border-success">
+    <h4 class="mb-2 text-success"><i class="	fa-solid fa-circle-check"></i> Your Result</h4>
+    <p class="mb-0 fs-5">Correct Answers: <strong>{{ scoreResult.correctAnswers }}</strong> / {{ scoreResult.totalQuestions }}</p>
+  </div>
+
+  <div *ngIf="scoreResult">
+    <div *ngFor="let q of quiz.questions" class="mb-4">
+      <h5>{{ q.questionText }}</h5>
+      <div class="d-flex flex-column gap-2">
+        <div
+          *ngFor="let opt of ['A', 'B', 'C', 'D']"
+          class="p-2 border rounded d-flex justify-content-between align-items-center"
+          [ngClass]="{
+            'bg-succes border-success': q.selectedOption === opt && q.correctOption === opt,
+
+            'bg-danger text-white': q.selectedOption === opt && q.correctOption !== opt,
+
+            'bg-success bg-opacity-25 border-success': q.selectedOption !== opt && q.correctOption === opt
+          }"
+        >
+          <div>
+            <strong>{{ opt }}.</strong> {{ q['option' + opt] }}
+          </div>
+          <div>
+            <ng-container *ngIf="q.selectedOption === opt && q.correctOption === opt">
+              <i class="fa-solid fa-circle-check text-success"></i>
+            </ng-container>
+            <ng-container *ngIf="q.selectedOption === opt && q.correctOption !== opt">
+              <i class="fa-solid fa-circle-xmark text-white"></i>
+            </ng-container>
+            <ng-container *ngIf="q.selectedOption !== opt && q.correctOption === opt">
+              <i class="fa-regular fa-circle-check text-success"></i>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

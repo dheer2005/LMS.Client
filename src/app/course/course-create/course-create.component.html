@@ -1,0 +1,46 @@
+<div class="container mt-5 col-md-6">
+  <div class="card p-4 shadow-sm">
+    <h4 class="mb-4 text-primary">📖 Create a New Course</h4>
+    <form (ngSubmit)="createCourse()" #courseForm="ngForm" enctype="multipart/form-data">
+      <!-- Course Title -->
+      <div class="mb-3">
+        <label class="form-label">Course Title</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="course.title"
+          name="title"
+          required
+        />
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="course.description"
+          name="description"
+          rows="4"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Thumbnail Upload -->
+      <div class="mb-3">
+        <label class="form-label">Course Thumbnail</label>
+        <input
+          type="file"
+          class="form-control"
+          (change)="onThumbnailSelected($event)"
+          accept="image/*"
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button class="btn btn-success w-100" type="submit">
+        ➕ Create Course
+      </button>
+    </form>
+  </div>
+</div>
