@@ -3,5 +3,7 @@ export interface Course {
   title: string;
   description: string;
   teacherId?: number;
+  price?: number;
+  isEnrolled?: boolean;
   thumbnailPath: string;
 }

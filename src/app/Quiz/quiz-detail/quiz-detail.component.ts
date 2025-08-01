@@ -27,7 +27,6 @@ export class QuizDetailComponent implements OnInit {
       if (!res || !res.questions || !Array.isArray(res.questions)) {
         this.toastrSvc.error("Invalid quiz format. No questions found.");
       }
-      // console.log("Quiz details:", this.quiz);
     });
   }
 
@@ -65,7 +64,6 @@ export class QuizDetailComponent implements OnInit {
         this.toastrSvc.success('Quiz submitted successfully!', 'Success');
       },
       error: (err) => {
-        console.error("Submission error:", err);
         this.toastrSvc.error("Quiz submission failed. Try again later.", 'Error');
       }
     });

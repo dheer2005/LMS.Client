@@ -4,15 +4,27 @@
   <div *ngIf="courses.length === 0" class="alert alert-warning">No courses available.</div>
 
   <div class="row">
-    <div *ngFor="let course of courses" class="col-md-3">
+    <div *ngFor="let course of courses" class="col-md-4">
       <div class="card mb-3 shadow-sm">
-        <img *ngIf="course.thumbnailPath" [src]="course.thumbnailPath" class="card-img-top" alt="Thumbnail" width="10" height="230" />
-        <div class="card-body">
+        <img *ngIf="course.thumbnailPath" [src]="course.thumbnailPath" class="card-img-top" alt="Thumbnail" height="230" />
+
+        <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ course.title }}</h5>
+
           <div class="description-text">
             <p class="card-text">{{ course.description }}</p>
           </div>
-          <button class="btn btn-outline-primary">▶️ Start Learning</button>
+
+          <div *ngIf="!course.isEnrolled" class="course-price text-success fw-bold mt-auto mb-2">
+            ₹{{ course.price }}
+          </div>
+
+          <button *ngIf="course.isEnrolled" class="btn btn-outline-primary" [routerLink]="['/course-overview', course.id]">
+            ▶️ Continue Learning
+          </button>
+          <button *ngIf="!course.isEnrolled" class="btn btn-outline-primary" (click)="Pay(course)">
+            ▶️ Enroll Now
+          </button>
         </div>
       </div>
     </div>

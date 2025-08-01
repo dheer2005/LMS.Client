@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PaymentDTO } from 'DTOs/paymentDto.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,23 @@ export class ApiService {
 
   submitQuizAnswers(payload: any) {
     return this.http.post(`${this.ApiUrl}Quiz/submit`, payload);
+  }
+
+  //payment
+  createOrder(amount:number){
+    return this.http.post(`${this.ApiUrl}Payment/createOrder`, { amount });
+  }
+
+  verifyPayment(obj:any){
+    return this.http.post(`${this.ApiUrl}Payment/verify-payment`, obj);
+  }
+
+  savePayment(dto: PaymentDTO){
+    return this.http.post(`${this.ApiUrl}Payment/save-payment`, dto);
+  }
+
+  enrollCourse(data: any){
+    return this.http.post(`${this.ApiUrl}Course/enroll`, data);
   }
 
 }

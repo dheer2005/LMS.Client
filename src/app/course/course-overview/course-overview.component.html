@@ -1,19 +1,53 @@
 <div class="container-fluid mt-4">
   <div class="row">
-    <!-- Main Video Section -->
     <div class="col-md-8">
       <div *ngIf="selectedVideo">
         <h4 class="mb-3">{{ selectedVideo.title }}</h4>
+
         <video
           width="100%"
           height="300"
           controls
-          [src]="selectedVideo.filePath"
+          [attr.controlsList]="'nodownload'"
+          [src]="selectedVideo?.selectedQuality"
+          (contextmenu)="disableRightClick($event)"
         ></video>
+
+        <div class="btn-group mt-2" role="group" aria-label="Quality Selection">
+          <button
+            *ngIf="selectedVideo.quality1080"
+            type="button"
+            class="btn btn-sm btn-outline-primary"
+            [class.active]="selectedVideo.selectedQuality === selectedVideo.quality1080"
+            (click)="changeQuality('quality1080')"
+          >
+            1080p
+          </button>
+          <button
+            *ngIf="selectedVideo.quality720"
+            type="button"
+            class="btn btn-sm btn-outline-primary"
+            [class.active]="selectedVideo.selectedQuality === selectedVideo.quality720"
+            (click)="changeQuality('quality720')"
+          >
+            720p
+          </button>
+          <button
+            *ngIf="selectedVideo.quality480"
+            type="button"
+            class="btn btn-sm btn-outline-primary"
+            [class.active]="selectedVideo.selectedQuality === selectedVideo.quality480"
+            (click)="changeQuality('quality480')"
+          >
+            480p
+          </button>
+        </div>
       </div>
+
       <div *ngIf="!selectedVideo" class="alert alert-info">
         Select a video to play
       </div>
+
       <div *ngIf="course?.description" class="mt-3">
         <h5>📝 Course Description</h5>
         <p>{{ course.description }}</p>
@@ -40,7 +74,6 @@
         </button>
       </div>
 
-      <!-- Videos List -->
       <h5>📹 Course Videos</h5>
       <input
         type="text"
@@ -53,8 +86,8 @@
           *ngFor="let video of filteredVideos"
           class="list-group-item list-group-item-action video-item"
           (click)="playVideo(video)"
-          (mouseenter)="video.hover = true"
-          (mouseleave)="video.hover = false"
+          (mouseenter)="playPreview(video, $event)"
+          (mouseleave)="pausePreview(video, $event)"  
         >
           <div class="video-title text-primary fw-semibold mb-1">
             {{ video.title }}
@@ -69,13 +102,13 @@
           <video
             *ngIf="video.hover"
             #videoPreview
-            [src]="video.filePath"
+            [src]="video.videoUrls._480p"
             muted
             autoplay
+            playsinline
             width="100%"
             height="100"
             style="object-fit: cover; border-radius: 5px"
-            (loadedmetadata)="videoPreview.play()"
           ></video>
         </button>
       </div>

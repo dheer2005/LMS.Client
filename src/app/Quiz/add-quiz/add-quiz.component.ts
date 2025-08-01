@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class AddQuizComponent implements OnInit {
   quizTitle: string = '';
   courseId!: number;
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {}
+  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private toastSvc: ToastrService) {}
 
   ngOnInit(): void {
     this.courseId = +this.route.snapshot.params['id'];

@@ -22,7 +22,6 @@ export class DashboardComponent implements OnInit {
     this.apiSvc.getMyCourses(this.teacherId).subscribe({
       next: (res:any)=>{
         this.myCourses = res;
-        console.log("courses:", this.myCourses);
       }
     })
   }

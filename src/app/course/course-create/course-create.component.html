@@ -26,6 +26,17 @@
         ></textarea>
       </div>
 
+      <div class="mb-3">
+        <label class="form-label">Course Price</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="course.price"
+          name="Price"
+          required
+        />
+      </div>
+
       <!-- Thumbnail Upload -->
       <div class="mb-3">
         <label class="form-label">Course Thumbnail</label>
@@ -34,11 +45,12 @@
           class="form-control"
           (change)="onThumbnailSelected($event)"
           accept="image/*"
+          #fileInput 
         />
       </div>
 
       <!-- Submit Button -->
-      <button class="btn btn-success w-100" type="submit">
+      <button [disabled]="isCreating" class="btn btn-success w-100" type="submit">
         ➕ Create Course
       </button>
     </form>

@@ -7,11 +7,20 @@
 }
 
 .description-text{
-    height: 70px;
+    height: 60px;
     overflow: auto;
     margin-bottom: 5px;
 }
 
 .card-title{
     font-size: 12px;
+}
+
+.card{
+    position: relative;
+}
+
+.viewCourseBtn{
+    position: absolute;
+    bottom: 5px;
 }

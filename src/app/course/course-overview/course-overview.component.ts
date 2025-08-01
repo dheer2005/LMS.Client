@@ -24,17 +24,15 @@ export class CourseOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.courseId = +this.route.snapshot.params['id'];
 
-    // Get course overview
     this.api.getCourseOverview(this.courseId).subscribe((res: any) => {
       this.course = res;
-      console.log("CourseResponse:", this.course);
       this.videos = res.videos;
+
       if (this.videos.length > 0) {
-        this.selectedVideo = this.videos[0]; 
+        this.setSelectedVideo(this.videos[0]);
       }
     });
 
-    // Get quizzes separately
     this.api.getQuizzesByCourse(this.courseId).subscribe((res: any) => this.quizzes = res);
   }
 
@@ -47,11 +45,55 @@ export class CourseOverviewComponent implements OnInit {
     );
   }
 
+  setSelectedVideo(video: any) {
+    this.selectedVideo = {
+      ...video,
+      quality480: video.videoUrls?._480p,
+      quality720: video.videoUrls?._720p,
+      quality1080: video.videoUrls?._1080p,
+      selectedQuality: video.videoUrls?._720p || video.videoUrls?._480p || video.videoUrls?._1080p
+    };
+  }
+
   playVideo(video: any) {
-    this.selectedVideo = video;
+    this.setSelectedVideo(video);
   }
 
   addQuiz() {
     this.router.navigate(['/add-quiz', this.courseId]);
   }
+
+  disableRightClick(event: MouseEvent) {
+    event.preventDefault();
+  }
+
+  changeQuality(qualityKey: string) {
+    if (this.selectedVideo && this.selectedVideo[qualityKey]) {
+      this.selectedVideo.selectedQuality = this.selectedVideo[qualityKey];
+    }
+  }
+
+  playPreview(video: any, event: MouseEvent) {
+    video.hover = true;
+
+    setTimeout(() => {
+      const videoElement = (event.target as HTMLElement).querySelector('video') as HTMLVideoElement;
+      if (videoElement) {
+        videoElement.play();
+      }
+    }, 50);
+  }
+
+  pausePreview(video: any, event: MouseEvent) {
+    video.hover = false;
+
+    setTimeout(() => {
+      const videoElement = (event.target as HTMLElement).querySelector('video') as HTMLVideoElement;
+      if (videoElement) {
+        videoElement.pause();
+        videoElement.currentTime = 0;
+      }
+    }, 50);
+  }
+
 }
