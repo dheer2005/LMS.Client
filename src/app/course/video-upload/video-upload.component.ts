@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
@@ -10,12 +10,14 @@ import { AuthService } from 'src/app/Services/auth.service';
   styleUrls: ['./video-upload.component.scss']
 })
 export class VideoUploadComponent implements OnInit {
+  @ViewChild('fileInput') fileInputRef!: ElementRef;
 
   myCourses: any[] = [];
   selectedCourseId: number = 0;
   title: string = '';
   teacherId?: number;
   selectedFile: File | null = null;
+  isUploading?: boolean;
 
   constructor(private apiSvc: ApiService, private authSvc: AuthService, private toastSvc: ToastrService) {}
 
@@ -40,6 +42,7 @@ export class VideoUploadComponent implements OnInit {
   }
 
   uploadVideo(): void {
+    this.isUploading = true;
     if (!this.selectedCourseId) {
       this.toastSvc.warning('❌ Please select a course.');
       return;
@@ -62,10 +65,14 @@ export class VideoUploadComponent implements OnInit {
 
     this.apiSvc.uploadVideo(formData).subscribe({
       next: () => {
+        this.isUploading = false;
         this.toastSvc.success('✅ Video uploaded successfully!', 'Uploaded');
         this.title = '';
         this.selectedCourseId = 0;
         this.selectedFile = null;
+        if(this.fileInputRef){
+          this.fileInputRef.nativeElement.value = '';
+        }
       },
       error: () => this.toastSvc.error('❌ Upload failed.')
     });

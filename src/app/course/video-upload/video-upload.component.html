@@ -39,6 +39,7 @@
           class="form-control"
           (change)="onFileSelected($event)"
           accept="video/*"
+          #fileInput
           required
         />
         <small *ngIf="selectedFile" class="text-muted">
@@ -47,7 +48,7 @@
       </div>
 
       <!-- Submit Button -->
-      <button class="btn btn-primary w-100" type="submit">
+      <button [disabled]="isUploading" class="btn btn-primary w-100" type="submit">
         ⬆️ Upload
       </button>
     </form>

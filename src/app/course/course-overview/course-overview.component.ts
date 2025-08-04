@@ -77,12 +77,29 @@ export class CourseOverviewComponent implements OnInit {
     video.hover = true;
 
     setTimeout(() => {
-      const videoElement = (event.target as HTMLElement).querySelector('video') as HTMLVideoElement;
+      const container = event.target as HTMLElement;
+      const videoElement = container.querySelector('video') as HTMLVideoElement;
+
       if (videoElement) {
-        videoElement.play();
+        videoElement.muted = true;
+
+        const playAttempt = () => {
+          videoElement.play().catch((err) => {
+            console.warn('Autoplay blocked:', err);
+          });
+        };
+
+        if (videoElement.readyState >= 2) {
+          playAttempt();
+        } else {
+          videoElement.onloadeddata = () => {
+            playAttempt();
+          };
+        }
       }
-    }, 50);
+    }, 100);
   }
+
 
   pausePreview(video: any, event: MouseEvent) {
     video.hover = false;
