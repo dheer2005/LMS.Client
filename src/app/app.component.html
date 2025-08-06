@@ -1,8 +1,8 @@
-<nav *ngIf="this.authSvc.isLoggedIn()" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+<nav *ngIf="this.authSvc.isLoggedIn()" class="navbar navbar-expand-lg  shadow-sm">
   <div class="container-fluid">
     <!-- <a class="navbar-brand">🎓 LMS Panel</a> -->
      <div class="imageCover">
-         <img src="https://www.eleapsoftware.com/wp-content/uploads/2020/02/5-made-easy-scaled.jpg" alt="LMS Logo">
+         <img [src]="logoUrl" alt="LMS Logo">
      </div>
 
     <button
@@ -14,6 +14,7 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
+    
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -51,7 +52,13 @@
       </ul>
 
       <form class="d-flex">
-        <div class="d-inline me-3 pt-1">Welcome <span class="text-primary">{{userName}} !</span></div>
+        <!-- <button (click)="toggleTheme()">Toggle Theme</button> -->
+         <button class="btn btn-theme-toggle " type="button" (click)="toggleTheme()">
+          <span [@rotateIcon]="currentTheme">
+            <i [ngClass]="currentTheme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"></i>
+          </span>
+        </button>
+        <div class="d-inline ms-2 me-3 pt-2">Welcome <span class="text-primary">{{userName}} !</span></div>
         <button class="btn btn-outline-danger" type="button" (click)="logout()">
           🚪 Logout
         </button>

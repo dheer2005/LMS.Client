@@ -22,6 +22,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManageUsersComponent } from './Admin/manage-users/manage-users.component';
 import { SystemSettingComponent } from './Admin/system-setting/system-setting.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('Lms_token'); 
+}
 
 @NgModule({
   declarations: [
@@ -49,7 +54,17 @@ import { SystemSettingComponent } from './Admin/system-setting/system-setting.co
     CommonModule,
     BrowserAnimationsModule, 
     ToastrModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:7071'], // Replace with your frontend domain if different
+        disallowedRoutes: [
+          'http://localhost:7071/api/auth/login',
+          'http://localhost:7071/api/auth/register',
+        ] // Replace with your login/register endpoints
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

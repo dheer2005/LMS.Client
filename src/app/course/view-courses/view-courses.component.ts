@@ -96,7 +96,7 @@ export class ViewCoursesComponent implements OnInit {
         this.apiSvc.savePayment(paymentPayload).subscribe({
           next: () => {
             this.toastSvc.success('Course Enrolled', 'Enrollment');
-            this.router.navigate(['/dashboard']).then(()=>location.reload());
+            this.router.navigate(['/view-courses']).then(()=>location.reload());
           },
           error: (err) => {
             this.toastSvc.error('Payment save failed.', 'Payment');

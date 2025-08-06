@@ -7,17 +7,31 @@ import { SystemSetting } from 'src/Models/system-setting.model';
   providedIn: 'root'
 })
 export class SystemSettingService {
-
   ApiUrl: string = 'https://localhost:7071/api/Admin';
 
   constructor(private http: HttpClient) { }
 
   private settingSubject = new BehaviorSubject<SystemSetting | null>(null);
   setting$ = this.settingSubject.asObservable();
+  private logoSubject = new BehaviorSubject<string>('');
+  logo$ = this.logoSubject.asObservable();
+
+  setLogo(logoUrl: string){
+    this.logoSubject.next(logoUrl);
+  }
+
+  get currentLogo(): string {
+    return this.logoSubject.getValue();
+  }
 
   loadSettings(): Observable<SystemSetting> {
     return this.http.get<SystemSetting>(`${this.ApiUrl}/get-systemSetting`).pipe(
-      tap(setting => this.settingSubject.next(setting))
+      tap(setting => {
+        if(setting.logoUrl){
+          this.setLogo(setting.logoUrl);
+        }
+        this.settingSubject.next(setting)
+      })
     );
   }
 

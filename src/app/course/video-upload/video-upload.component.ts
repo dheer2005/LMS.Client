@@ -83,7 +83,7 @@ export class VideoUploadComponent implements OnInit {
           this.fileInputRef.nativeElement.value = '';
         }
       },
-      error: () => this.toastSvc.error('❌ Upload failed.')
+      error: (err:any) => this.toastSvc.error(`${JSON.stringify(err.error.message)}`,'❌ Upload failed.')
     });
   }
 

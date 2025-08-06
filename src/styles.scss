@@ -1,9 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
-body {
-  background-color: #f8f9fa;
+:root {
+  --primary-color: #000;
+  --background-color: #fff;
+  --text-color: #000;
 }
 
+.dark-theme {
+  --primary-color: #fff;
+  --background-color: #61626379;
+  --text-color: #fff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
 
 .card {
   border-radius: 1rem;
 }
+

@@ -21,34 +21,25 @@ export class SystemSettingComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       platformName: ['', Validators.required],
-      theme: ['light', Validators.required],
       maxVideoUploadSizeMB: [500, [Validators.required, Validators.min(1)]],
       allowedVideoFormats: ['mp4,webm,mov'],
       requireEnrollmentApproval: [false],
-      defaultQuizTimeMinutes: [30],
       quizRetakeLimit: [2],
       passPercentage: [50],
       registrationEnabled: [true],
       requireEmailVerification: [false],
       minPasswordLength: [6],
       sessionTimeoutMinutes: [30],
-      chatEnabled: [true],
-      welcomeMessage: [''],
-      paidCoursesEnabled: [false],
-      razorpayKey: [''],
-      enableUserActivityLog: [false],
-      googleAnalyticsCode: ['']
+      paidCoursesEnabled: [false]
     });
 
     this.load();
-    // also subscribe to changes globally if other components update settings
     this.settingSvc.setting$.subscribe(s => {
       if (s) {
         this.setting = s;
         // console.log("settings response:", this.setting);
         this.form.patchValue({
           platformName: s.platformName,
-          theme: s.theme,
           maxVideoUploadSizeMB: s.maxVideoUploadSizeMB,
           allowedVideoFormats: s.allowedVideoFormats,
           requireEnrollmentApproval: s.requireEnrollmentApproval,
@@ -59,12 +50,7 @@ export class SystemSettingComponent implements OnInit {
           requireEmailVerification: s.requireEmailVerification,
           minPasswordLength: s.minPasswordLength,
           sessionTimeoutMinutes: s.sessionTimeoutMinutes,
-          chatEnabled: s.chatEnabled,
-          welcomeMessage: s.welcomeMessage,
           paidCoursesEnabled: s.paidCoursesEnabled,
-          razorpayKey: s.razorpayKey,
-          enableUserActivityLog: s.enableUserActivityLog,
-          googleAnalyticsCode: s.googleAnalyticsCode
         });
       }
     });
@@ -103,8 +89,11 @@ export class SystemSettingComponent implements OnInit {
 
     this.loading = true;
     this.settingSvc.updateSettings(payload).subscribe({
-      next: () => {
+      next: (res:any) => {
         this.loading = false;
+        if(res.logoUrl){
+          this.settingSvc.setLogo(res.logoUrl);
+        }
         this.toastr.success('Settings saved');
       },
       error: (err) => {

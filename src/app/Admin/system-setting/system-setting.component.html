@@ -7,7 +7,7 @@
       <div class="col-md-6">
         <div class="mb-3">
           <label class="form-label">Platform Name</label>
-          <input type="text" class="form-control" formControlName="platformName" placeholder="Platform Name">
+          <input readonly type="text" class="form-control text-muted fw-bold" formControlName="platformName" placeholder="Platform Name">
         </div>
 
         <div class="mb-3">
@@ -30,10 +30,15 @@
           <label class="form-check-label" for="requireEmailVerification">Require Email Notification</label>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">Default Timeout (minutes)</label>
-          <input type="number" class="form-control" formControlName="defaultQuizTimeMinutes">
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" formControlName="paidCoursesEnabled" id="paidCoursesEnabled">
+          <label class="form-check-label" for="paidCoursesEnabled">Payment Enabled</label>
         </div>
+
+        <!-- <div class="mb-3">
+          <label class="form-label">Default Quiz Time (minutes)</label>
+          <input type="number" class="form-control" formControlName="defaultQuizTimeMinutes">
+        </div> -->
 
         <div class="mb-3">
           <label class="form-label">Pass Percentage</label>
@@ -49,14 +54,6 @@
       <!-- Right Column -->
       <div class="col-md-6">
         <div class="mb-3">
-          <label class="form-label">Theme</label>
-          <select class="form-select" formControlName="theme">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
           <label class="form-label">Quiz Retake Limit</label>
           <input type="number" class="form-control" formControlName="quizRetakeLimit">
         </div>
@@ -65,38 +62,6 @@
           <label class="form-label">Session Timeout (minutes)</label>
           <input type="number" class="form-control" formControlName="sessionTimeoutMinutes">
         </div>
-
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="checkbox" formControlName="chatEnabled" id="chatEnabled">
-          <label class="form-check-label" for="chatEnabled">Chat Enabled</label>
-        </div>
-
-        <!-- Conditionally show Welcome Message -->
-        <div class="mb-3" *ngIf="form.get('chatEnabled')?.value">
-          <label class="form-label">Welcome Message</label>
-          <input type="text" class="form-control" formControlName="welcomeMessage">
-        </div>
-
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="checkbox" formControlName="paidCoursesEnabled" id="paidCoursesEnabled">
-          <label class="form-check-label" for="paidCoursesEnabled">Payment Enabled</label>
-        </div>
-
-        <!-- Conditionally show Razorpay Key -->
-        <div class="mb-3" *ngIf="form.get('paidCoursesEnabled')?.value">
-          <label class="form-label">Razorpay Key</label>
-          <input type="text" class="form-control" formControlName="razorpayKey">
-        </div>
-
-        <!-- <div class="form-check mb-2">
-          <input class="form-check-input" type="checkbox" formControlName="enableUserActivityLog" id="enableUserActivityLog">
-          <label class="form-check-label" for="enableUserActivityLog">Enable User Activity Log</label>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Google Analytics Code</label>
-          <input type="text" class="form-control" formControlName="googleAnalyticsCode">
-        </div> -->
 
         <div class="mb-3">
           <label class="form-label">Platform Logo</label>

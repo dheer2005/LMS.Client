@@ -14,3 +14,20 @@
   height: 100%;
   object-fit: cover;
 }
+
+.navbar{
+  background: transparent;
+}
+
+.btn-theme-toggle {
+  font-size: 1.5rem;
+  padding: 6px 12px;
+  border: none;
+  background-color: transparent;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-theme-toggle:hover {
+  transform: scale(1.2);
+}

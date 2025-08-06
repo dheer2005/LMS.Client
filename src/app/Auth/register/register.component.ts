@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
+import { json } from 'stream/consumers';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,10 @@ export class RegisterComponent implements OnInit {
         this.toastSvc.success('Registered successfully', 'Registered');
         this.router.navigate(['/login']);
       },
-      error: () => this.toastSvc.error('Registration failed')
+      error: (err:any) => {
+        // console.log(JSON.stringify(err.error));
+        this.toastSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');
+      }
     });
   }
 
