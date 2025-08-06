@@ -1,0 +1,115 @@
+<div class="card shadow-sm p-4">
+  <h5 class="fw-bold mb-4">System Settings</h5>
+
+  <form [formGroup]="form" (ngSubmit)="logoFile ? uploadLogoAndSave() : save()">
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label">Platform Name</label>
+          <input type="text" class="form-control" formControlName="platformName" placeholder="Platform Name">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Max Video Upload Size (MB)</label>
+          <input type="number" class="form-control" formControlName="maxVideoUploadSizeMB">
+        </div>
+
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" formControlName="requireEnrollmentApproval" id="requireEnrollmentApproval">
+          <label class="form-check-label" for="requireEnrollmentApproval">Require Enrollment Approval</label>
+        </div>
+
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" formControlName="registrationEnabled" id="registrationEnabled">
+          <label class="form-check-label" for="registrationEnabled">Allow Public Registration</label>
+        </div>
+
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" formControlName="requireEmailVerification" id="requireEmailVerification">
+          <label class="form-check-label" for="requireEmailVerification">Require Email Notification</label>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Default Timeout (minutes)</label>
+          <input type="number" class="form-control" formControlName="defaultQuizTimeMinutes">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Pass Percentage</label>
+          <input type="number" class="form-control" formControlName="passPercentage">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Min Password Length</label>
+          <input type="number" class="form-control" formControlName="minPasswordLength">
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-md-6">
+        <div class="mb-3">
+          <label class="form-label">Theme</label>
+          <select class="form-select" formControlName="theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Quiz Retake Limit</label>
+          <input type="number" class="form-control" formControlName="quizRetakeLimit">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Session Timeout (minutes)</label>
+          <input type="number" class="form-control" formControlName="sessionTimeoutMinutes">
+        </div>
+
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" formControlName="chatEnabled" id="chatEnabled">
+          <label class="form-check-label" for="chatEnabled">Chat Enabled</label>
+        </div>
+
+        <!-- Conditionally show Welcome Message -->
+        <div class="mb-3" *ngIf="form.get('chatEnabled')?.value">
+          <label class="form-label">Welcome Message</label>
+          <input type="text" class="form-control" formControlName="welcomeMessage">
+        </div>
+
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" formControlName="paidCoursesEnabled" id="paidCoursesEnabled">
+          <label class="form-check-label" for="paidCoursesEnabled">Payment Enabled</label>
+        </div>
+
+        <!-- Conditionally show Razorpay Key -->
+        <div class="mb-3" *ngIf="form.get('paidCoursesEnabled')?.value">
+          <label class="form-label">Razorpay Key</label>
+          <input type="text" class="form-control" formControlName="razorpayKey">
+        </div>
+
+        <!-- <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" formControlName="enableUserActivityLog" id="enableUserActivityLog">
+          <label class="form-check-label" for="enableUserActivityLog">Enable User Activity Log</label>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Google Analytics Code</label>
+          <input type="text" class="form-control" formControlName="googleAnalyticsCode">
+        </div> -->
+
+        <div class="mb-3">
+          <label class="form-label">Platform Logo</label>
+          <input #fileInput type="file" class="form-control" (change)="onFileSelected($event)">
+          <img *ngIf="setting && setting?.logoUrl" [src]="setting.logoUrl" class="img-thumbnail mt-2" width="100">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-end mt-3">
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading">
+        {{ loading ? 'Saving...' : 'Save Settings' }}
+      </button>
+    </div>
+  </form>
+</div>

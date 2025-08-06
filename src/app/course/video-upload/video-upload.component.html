@@ -10,9 +10,10 @@
         <select
           class="form-select"
           [(ngModel)]="selectedCourseId"
+          [disabled]="isCoursePreselected!"
           name="courseId"
           required>
-          <option value="" disabled selected>Select a course</option>
+          <option value="" selected disabled>Select a course</option>
           <option *ngFor="let course of myCourses" [value]="course.id">
             {{ course.title }}
           </option>

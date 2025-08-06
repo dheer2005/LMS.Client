@@ -18,12 +18,21 @@ export class VideoUploadComponent implements OnInit {
   teacherId?: number;
   selectedFile: File | null = null;
   isUploading?: boolean;
+  courseId?: number;
+  isCoursePreselected?: boolean;
 
-  constructor(private apiSvc: ApiService, private authSvc: AuthService, private toastSvc: ToastrService) {}
+  constructor(private route: ActivatedRoute, private apiSvc: ApiService, private authSvc: AuthService, private toastSvc: ToastrService) {}
 
   ngOnInit(): void {
+    this.courseId = +this.route.snapshot.paramMap.get('id')!;
+    console.log("video uploading :", this.courseId);
     this.teacherId = Number(this.authSvc.getId());
     this.fetchMyCourses();
+
+    if(this.courseId){
+      this.selectedCourseId = this.courseId;
+      this.isCoursePreselected = true;
+    }
   }
 
   fetchMyCourses(): void {

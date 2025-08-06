@@ -84,4 +84,19 @@ export class ApiService {
     return this.http.post(`${this.ApiUrl}Course/enroll`, data);
   }
 
+  //Admin
+  getAllUser(){
+    return this.http.get(`${this.ApiUrl}Admin/GetAllUsers`);
+  }
+
+  deleteUser(userId: number){
+    return this.http.delete(`${this.ApiUrl}Admin/deleteUser/${userId}`);
+  }
+
+  updateUser(userId: number, payload: any) {
+    return this.http.put(`${this.ApiUrl}Admin/updateUser/${userId}`, payload);
+  }
+
+
+
 }

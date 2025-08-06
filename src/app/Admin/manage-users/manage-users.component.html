@@ -1,0 +1,138 @@
+<div class="container mt-4">
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">👮 Admin Panel - Manage Users</h2>
+  </div>
+
+  <!-- Student Section -->
+  <div class="card shadow mb-5">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0">👨‍🎓 Students</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive-scroll">
+            <table class="table table-striped mb-0">
+              <thead class="table-dark">
+                <tr>
+                  <th class="text-center">#</th>
+                  <th class="text-center">Full Name</th>
+                  <th class="text-center">Email</th>
+                  <th class="text-center">Role</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of students; let i = index">
+                  <td class="text-center">{{ i + 1 }}</td>
+                  <td class="text-center">{{ student.fullName }}</td>
+                  <td class="text-center">{{ student.email }}</td>
+                  <td class="text-center"><span class="badge bg-secondary">{{ student.role }}</span></td>
+                  <td class="text-center">
+                    <!-- <button class="btn btn-sm btn-outline-info me-1" (click)="viewUser(student)">View</button> -->
+                     <button class="btn btn-sm btn-outline-info me-1" #popoverRef data-bs-toggle="popover"    data-bs-trigger="focus" title="User Details" (click)="viewUser(student, popoverRef)">
+                      View
+                      </button>
+                    <button class="btn btn-sm btn-outline-warning me-1" (click)="editUser(student)">Edit</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(student.id)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table> 
+        </div>
+    </div>
+  </div>
+
+  <!-- Teacher Section -->
+  <div class="card shadow mb-5">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0">👨‍🏫 Teachers</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive-scroll">
+            <table class="table table-striped mb-0">
+              <thead class="table-dark">
+                <tr>
+                  <th class="text-center">#</th>
+                  <th class="text-center">Full Name</th>
+                  <th class="text-center">Email</th>
+                  <th class="text-center">Role</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let teacher of teachers; let i = index">
+                  <td class="text-center">{{ i + 1 }}</td>
+                  <td class="text-center">{{ teacher.fullName }}</td>
+                  <td class="text-center">{{ teacher.email }}</td>
+                  <td class="text-center"><span class="badge bg-info text-dark">{{ teacher.role }}</span></td>
+                  <td class="text-center">
+                    <!-- <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="popover" title="User Details" data-bs-content="" (click)="viewUser(teacher)">View</button>
+                      -->
+                    <button class="btn btn-sm btn-outline-info me-1" #popoverRef data-bs-toggle="popover"    data-bs-trigger="focus" title="User Details" (click)="viewUser(teacher, popoverRef)">
+                      View
+                      </button>
+                    <button class="btn btn-sm btn-outline-warning me-1" (click)="editUser(teacher)">Edit</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(teacher.id)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <form (ngSubmit)="submitEditForm()">
+                <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title">✏️ Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input [(ngModel)]="editUserData.fullName" name="fullName" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input [(ngModel)]="editUserData.email" name="email" class="form-control" required type="email" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select disabled [(ngModel)]="editUserData.role" name="role" class="form-select" required>
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Admin">Admin</option>
+                    </select>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+</div>

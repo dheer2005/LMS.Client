@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './Auth/login/login.component';
 import { RegisterComponent } from './Auth/register/register.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CourseListComponent } from './course/course-list/course-list.component';
@@ -20,6 +20,8 @@ import { QuizDetailComponent } from './Quiz/quiz-detail/quiz-detail.component';
 import { AddQuestionComponent } from './Quiz/add-question/add-question.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ManageUsersComponent } from './Admin/manage-users/manage-users.component';
+import { SystemSettingComponent } from './Admin/system-setting/system-setting.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CourseOverviewComponent,
     AddQuizComponent,
     QuizDetailComponent,
-    AddQuestionComponent
+    AddQuestionComponent,
+    ManageUsersComponent,
+    SystemSettingComponent
   ],
   imports: [
     RouterModule,
@@ -44,7 +48,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     CommonModule,
     BrowserAnimationsModule, 
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

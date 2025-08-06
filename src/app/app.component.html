@@ -1,1 +1,63 @@
+<nav *ngIf="this.authSvc.isLoggedIn()" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container-fluid">
+    <!-- <a class="navbar-brand">🎓 LMS Panel</a> -->
+     <div class="imageCover">
+         <img src="https://www.eleapsoftware.com/wp-content/uploads/2020/02/5-made-easy-scaled.jpg" alt="LMS Logo">
+     </div>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+      aria-controls="navbarContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ng-container *ngIf="role === 'Student'">
+          <li class="nav-item">
+            <a routerLink="/view-courses" class="nav-link">📘 View Courses</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/my-progress" class="nav-link">📈 My Progress</a>
+          </li>
+        </ng-container>
+
+        <ng-container *ngIf="role === 'Teacher'">
+          <li class="nav-item">
+            <a routerLink="/create-course" class="nav-link">📖 Create Course</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/my-courses" class="nav-link">📚 My Courses</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/upload-video/0" class="nav-link">📹 Upload Video</a>
+          </li>
+        </ng-container>
+
+        <ng-container *ngIf="role === 'Admin'">
+          <li class="nav-item">
+            <a routerLink="/manage-users" class="nav-link">🧑‍💼 Manage Users</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/settings" class="nav-link">⚙️ System Settings</a>
+          </li>
+        </ng-container>
+      </ul>
+
+      <form class="d-flex">
+        <div class="d-inline me-3 pt-1">Welcome <span class="text-primary">{{userName}} !</span></div>
+        <button class="btn btn-outline-danger" type="button" (click)="logout()">
+          🚪 Logout
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
+
 <router-outlet></router-outlet>

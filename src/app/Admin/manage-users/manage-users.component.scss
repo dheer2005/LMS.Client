@@ -1,0 +1,23 @@
+.container {
+  max-width: 1200px;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.card-header h5 {
+  font-weight: 600;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+.table-responsive-scroll {
+  max-height: 230px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

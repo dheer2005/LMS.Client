@@ -12,6 +12,8 @@ import { CourseOverviewComponent } from './course/course-overview/course-overvie
 import { AddQuizComponent } from './Quiz/add-quiz/add-quiz.component';
 import { QuizDetailComponent } from './Quiz/quiz-detail/quiz-detail.component';
 import { AddQuestionComponent } from './Quiz/add-question/add-question.component';
+import { ManageUsersComponent } from './Admin/manage-users/manage-users.component';
+import { SystemSettingComponent } from './Admin/system-setting/system-setting.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,6 +28,8 @@ const routes: Routes = [
   { path: 'add-quiz/:id', component: AddQuizComponent },
   { path: 'quiz-detail/:id', component: QuizDetailComponent },
   { path: 'add-question/:quizId', component: AddQuestionComponent },
+  { path: 'manage-users', component: ManageUsersComponent },
+  { path: 'settings', component: SystemSettingComponent},
   { path: '**', redirectTo: 'login' }
 ];
 
