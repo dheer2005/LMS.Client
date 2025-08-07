@@ -45,7 +45,10 @@
   <!-- Teacher Section -->
   <div class="card shadow mb-5">
     <div class="card-header bg-info text-white">
-      <h5 class="mb-0">👨‍🏫 Teachers</h5>
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="d-inline mb-0">👨‍🏫 Teachers</h5>
+        <button class="ms-auto btn btn-outline-secondary text-white" data-bs-toggle="modal" data-bs-target="#registerModal">Add Teacher</button>
+      </div>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive-scroll">
@@ -80,6 +83,41 @@
         </div>
     </div>
   </div>
+
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="registerModalLabel">🎓 LMS Register</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body bg-light">
+        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" name="name" [(ngModel)]="registerTeacherData.fullName" #name="ngModel" required class="form-control" id="name" placeholder="Enter your name" />
+            <div *ngIf="name.invalid && name.touched" class="text-danger small mt-1">Name is required.</div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" name="email" [(ngModel)]="registerTeacherData.email" #email="ngModel" required email class="form-control" id="email" placeholder="Enter your email" />
+            <div *ngIf="email.invalid && email.touched" class="text-danger small mt-1">Valid email is required.</div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" [(ngModel)]="registerTeacherData.password" #password="ngModel" required minlength="6" class="form-control" id="password" placeholder="Create password" />
+            <div *ngIf="password.invalid && password.touched" class="text-danger small mt-1">Password must be at least 6 characters.</div>
+          </div>
+          <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <input name="role" [value]="registerRole" required class="form-control text-muted fw-bold" id="role" readonly>  
+          </div>
+          <button type="submit" class="btn btn-success w-100 mt-2" data-bs-dismiss="modal" [disabled]="registerForm.invalid">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Edit User Modal -->
     <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
@@ -116,23 +154,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
 </div>
+
+    

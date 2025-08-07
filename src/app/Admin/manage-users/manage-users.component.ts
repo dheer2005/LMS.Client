@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
 import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Popover } from 'bootstrap';
+import { Form, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-manage-users',
@@ -14,6 +15,8 @@ export class ManageUsersComponent implements OnInit {
   users: any[] = [];
   students: any[] = [];
   teachers: any[] = [];
+  registerRole: string = 'Teacher'
+  registerTeacherData = { fullName: '', email: '', password: '', role: this.registerRole };
 
   selectedUserId: number | null = null;
   editUserData = {
@@ -39,6 +42,20 @@ export class ManageUsersComponent implements OnInit {
       },
       error: err => {
         this.toastrSvc.error('Error fetching users', err);
+      }
+    });
+  }
+
+  onRegister(form: NgForm) {
+    console.log("registerTeacherData:", this.registerTeacherData);
+    this.apiSvc.register(this.registerTeacherData).subscribe({
+      next: () => {
+        this.loadUsers();
+        this.toastrSvc.success('Registered successfully', 'Registered');
+        form.reset();
+      },
+      error: (err:any) => {
+        this.toastrSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');
       }
     });
   }

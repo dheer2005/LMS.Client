@@ -58,11 +58,11 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:7071'], // Replace with your frontend domain if different
+        allowedDomains: ['localhost:7071'],
         disallowedRoutes: [
           'http://localhost:7071/api/auth/login',
           'http://localhost:7071/api/auth/register',
-        ] // Replace with your login/register endpoints
+        ]
       }
     })
   ],

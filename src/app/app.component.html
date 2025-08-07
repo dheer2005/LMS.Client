@@ -1,8 +1,7 @@
 <nav *ngIf="this.authSvc.isLoggedIn()" class="navbar navbar-expand-lg  shadow-sm">
   <div class="container-fluid">
-    <!-- <a class="navbar-brand">🎓 LMS Panel</a> -->
      <div class="imageCover">
-         <img [src]="logoUrl" alt="LMS Logo">
+         <img [src]="logoUrl" class="=" alt="LMS Logo">
      </div>
 
     <button
@@ -14,7 +13,6 @@
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
-    
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -22,37 +20,36 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <ng-container *ngIf="role === 'Student'">
           <li class="nav-item">
-            <a routerLink="/view-courses" class="nav-link">📘 View Courses</a>
+            <a routerLink="/view-courses" class="  "><i class="fa-solid fa-folder-open"></i> View Courses</a>
           </li>
           <li class="nav-item">
-            <a routerLink="/my-progress" class="nav-link">📈 My Progress</a>
+            <a routerLink="/my-progress" class="  "><i class="fa-solid fa-bars-progress"></i> My Progress</a>
           </li>
         </ng-container>
 
         <ng-container *ngIf="role === 'Teacher'">
           <li class="nav-item">
-            <a routerLink="/create-course" class="nav-link">📖 Create Course</a>
+            <a routerLink="/create-course" class="  "><i class="fa-solid fa-folder-plus"></i> Create Course</a>
           </li>
           <li class="nav-item">
-            <a routerLink="/my-courses" class="nav-link">📚 My Courses</a>
+            <a routerLink="/my-courses" class="  "><i class="fa-solid fa-folder-open"></i> My Courses</a>
           </li>
           <li class="nav-item">
-            <a routerLink="/upload-video/0" class="nav-link">📹 Upload Video</a>
+            <a routerLink="/upload-video/0" class="  "><i class="fa-solid fa-upload"></i> Upload Video</a>
           </li>
         </ng-container>
 
         <ng-container *ngIf="role === 'Admin'">
           <li class="nav-item">
-            <a routerLink="/manage-users" class="nav-link">🧑‍💼 Manage Users</a>
+            <a routerLink="/manage-users" class="  "><i class="fa-solid fa-users"></i> Manage Users</a>
           </li>
           <li class="nav-item">
-            <a routerLink="/settings" class="nav-link">⚙️ System Settings</a>
+            <a routerLink="/settings" class="  "><i class="fa-solid fa-gear"></i> System Settings</a>
           </li>
         </ng-container>
       </ul>
 
       <form class="d-flex">
-        <!-- <button (click)="toggleTheme()">Toggle Theme</button> -->
          <button class="btn btn-theme-toggle " type="button" (click)="toggleTheme()">
           <span [@rotateIcon]="currentTheme">
             <i [ngClass]="currentTheme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'"></i>

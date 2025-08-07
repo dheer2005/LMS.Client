@@ -15,6 +15,7 @@ export class VideoUploadComponent implements OnInit {
   myCourses: any[] = [];
   selectedCourseId: number = 0;
   title: string = '';
+  description: string = '';
   teacherId?: number;
   selectedFile: File | null = null;
   isUploading?: boolean;
@@ -25,7 +26,6 @@ export class VideoUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.courseId = +this.route.snapshot.paramMap.get('id')!;
-    console.log("video uploading :", this.courseId);
     this.teacherId = Number(this.authSvc.getId());
     this.fetchMyCourses();
 
@@ -62,6 +62,11 @@ export class VideoUploadComponent implements OnInit {
       return;
     }
 
+    if (!this.description) {
+      this.toastSvc.warning('❌ Please enter a video title.');
+      return;
+    }
+
     if (!this.selectedFile) {
       this.toastSvc.warning('❌ Please select a video file.');
       return;
@@ -71,6 +76,7 @@ export class VideoUploadComponent implements OnInit {
     formData.append('title', this.title);
     formData.append('courseId', this.selectedCourseId.toString());
     formData.append('file', this.selectedFile);
+    formData.append('description', this.description);
 
     this.apiSvc.uploadVideo(formData).subscribe({
       next: () => {
@@ -79,6 +85,7 @@ export class VideoUploadComponent implements OnInit {
         this.title = '';
         this.selectedCourseId = 0;
         this.selectedFile = null;
+        this.description = '';
         if(this.fileInputRef){
           this.fileInputRef.nativeElement.value = '';
         }

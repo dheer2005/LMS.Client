@@ -3,12 +3,14 @@
   --primary-color: #000;
   --background-color: #fff;
   --text-color: #000;
+  --border-color: 2px solid black;
 }
 
 .dark-theme {
   --primary-color: #fff;
-  --background-color: #61626379;
+  --background-color: #111111;
   --text-color: #fff;
+  --border-color: 2px solid wheat;
 }
 
 body {

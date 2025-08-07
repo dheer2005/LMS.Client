@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
 import { AuthService } from 'src/app/Services/auth.service';
 
@@ -17,7 +18,7 @@ export class CourseOverviewComponent implements OnInit {
   searchTerm: string = '';
   userRole: string = '';
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private authSvc: AuthService) {
+  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private authSvc: AuthService, private toastrSvc: ToastrService) {
     this.userRole = this.authSvc.getRole();
   }
 
@@ -27,10 +28,6 @@ export class CourseOverviewComponent implements OnInit {
     this.api.getCourseOverview(this.courseId).subscribe((res: any) => {
       this.course = res;
       this.videos = res.videos;
-
-      if (this.videos.length > 0) {
-        this.setSelectedVideo(this.videos[0]);
-      }
     });
 
     this.api.getQuizzesByCourse(this.courseId).subscribe((res: any) => this.quizzes = res);
@@ -72,45 +69,4 @@ export class CourseOverviewComponent implements OnInit {
       this.selectedVideo.selectedQuality = this.selectedVideo[qualityKey];
     }
   }
-
-  playPreview(video: any, event: MouseEvent) {
-    video.hover = true;
-
-    setTimeout(() => {
-      const container = event.target as HTMLElement;
-      const videoElement = container.querySelector('video') as HTMLVideoElement;
-
-      if (videoElement) {
-        videoElement.muted = true;
-
-        const playAttempt = () => {
-          videoElement.play().catch((err) => {
-            console.warn('Autoplay blocked:', err);
-          });
-        };
-
-        if (videoElement.readyState >= 2) {
-          playAttempt();
-        } else {
-          videoElement.onloadeddata = () => {
-            playAttempt();
-          };
-        }
-      }
-    }, 100);
-  }
-
-
-  pausePreview(video: any, event: MouseEvent) {
-    video.hover = false;
-
-    setTimeout(() => {
-      const videoElement = (event.target as HTMLElement).querySelector('video') as HTMLVideoElement;
-      if (videoElement) {
-        videoElement.pause();
-        videoElement.currentTime = 0;
-      }
-    }, 50);
-  }
-
 }

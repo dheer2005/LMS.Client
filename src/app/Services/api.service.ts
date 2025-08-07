@@ -59,12 +59,16 @@ export class ApiService {
     return this.http.get(`${this.ApiUrl}Quiz/course/${courseId}`);
   }
 
-  getQuizDetails(quizId: number) {
-    return this.http.get(`${this.ApiUrl}Quiz/attempt/${quizId}`);
+  getQuizDetails(quizId: number, userId: number) {
+    return this.http.get(`${this.ApiUrl}Quiz/attempt/${quizId}/${userId}`);
   }
 
   submitQuizAnswers(payload: any) {
     return this.http.post(`${this.ApiUrl}Quiz/submit`, payload);
+  }
+
+  quizSubmission(payload: any){
+    return this.http.post(`${this.ApiUrl}Quiz/quizSubmission`, payload);
   }
 
   //payment

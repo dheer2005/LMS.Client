@@ -33,15 +33,22 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.settingSvc.getSettings().subscribe({
+      next: (res)=>{
+        this.logoUrl = res.logoUrl ;
+      },
+      error: (err: any)=>{
+        console.log(err);
+      }
+    })
     this.settingSvc.logo$.subscribe(url => {
       this.logoUrl = url ;
-      // console.log("logourl response:", this.logoUrl);
     });
     this.themeService.theme$.subscribe(theme => {
       this.currentTheme = theme;
       document.body.className = '';
       if (this.currentTheme) {
-        document.body.classList.add(this.currentTheme);
+        document.body.classList.add(this.currentTheme === 'dark'? 'dark-theme': 'empty');
       }
     });
     this.updateUserData();

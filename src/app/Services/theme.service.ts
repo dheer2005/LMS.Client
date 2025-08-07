@@ -27,7 +27,7 @@ export class ThemeService {
     }
 
     localStorage.setItem(this.themeKey, theme);
-    this.themeSubject.next(theme); // broadcast change
+    this.themeSubject.next(theme);
   }
 
   toggleTheme() {
