@@ -54,7 +54,29 @@ export class CourseOverviewComponent implements OnInit {
 
   playVideo(video: any) {
     this.setSelectedVideo(video);
+    if(this.userRole == 'Student'){
+      this.trackVideoWatch(video.id);
+    }
   }
+
+  trackVideoWatch(videoId: number){
+    const payload = {
+      studentId: Number(this.authSvc.getId()),
+      courseId: this.courseId,
+      videoId: videoId
+    };
+
+    this.api.trackVideoWatch(payload).subscribe({
+      next: (res:any)=>{
+        this.toastrSvc.success(res.message);
+      },
+      error: (err:any)=>{
+        this.toastrSvc.warning('Failed to track video watch', err);
+      }
+    })
+  }
+
+
 
   addQuiz() {
     this.router.navigate(['/add-quiz', this.courseId]);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { error } from 'console';
 import { PaymentDTO } from 'DTOs/paymentDto.dto';
 import { RazorpayResponse } from 'DTOs/razorpayresponse.dto';
 import { ToastrService } from 'ngx-toastr';
@@ -32,7 +33,8 @@ export class ViewCoursesComponent implements OnInit {
     Pay(course:any){
       this.courseId = course.id;
       this.coursePrice = course.price;
-      this.apiSvc.createOrder(this.coursePrice!).subscribe((order:any)=>{
+      this.apiSvc.createOrder(this.coursePrice!).subscribe({
+        next: (order:any)=>{
         const options = {
         key: "rzp_test_X3Lg7L57herVXe",
         amount: order.amount,
@@ -56,7 +58,11 @@ export class ViewCoursesComponent implements OnInit {
       };
       const rzp = new (window as any).Razorpay(options);
       rzp.open();
-      });
+      },
+    error: (err:any)=>{
+      this.toastSvc.warning(err.error.message);
+    }}
+    );
     }
 
     private handlePaymentSuccess(response: RazorpayResponse) {

@@ -46,6 +46,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.ApiUrl}Video/by-course/${courseId}`);
   }
 
+  trackVideoWatch(payload: any) {
+    return this.http.post(`${this.ApiUrl}Video/track`, payload);
+  }
+
   // Quiz
   createQuiz(data: any) {
     return this.http.post(`${this.ApiUrl}Quiz/create`, data);
@@ -101,6 +105,26 @@ export class ApiService {
     return this.http.put(`${this.ApiUrl}Admin/updateUser/${userId}`, payload);
   }
 
+  getMyProgress(studentId: number) {
+    return this.http.get<any[]>(`${this.ApiUrl}StudentProgress/progress/${studentId}`);
+  }
+
+  //email verification
+  SendEmail(data:any){
+    return this.http.post(`${this.ApiUrl}Auth/SendEmail`, data);
+  }
+
+  verifyUser(user:any, data:any){
+    return this.http.get(`${this.ApiUrl}Auth/verify/${user}/${data}`);
+  }
+
+  getSystemSetting(){
+    return this.http.get(`${this.ApiUrl}Admin/get-systemSetting`);
+  }
+
+  AlreadyExists(data:any){
+    return this.http.post(`${this.ApiUrl}Auth/AlreadyExists`, data);
+  }
 
 
 }

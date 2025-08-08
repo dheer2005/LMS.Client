@@ -23,6 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManageUsersComponent } from './Admin/manage-users/manage-users.component';
 import { SystemSettingComponent } from './Admin/system-setting/system-setting.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MyProgressComponent } from './my-progress/my-progress.component';
+import { EmailVerificationComponent } from './Auth/email-verification/email-verification.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Lms_token'); 
@@ -43,7 +45,9 @@ export function tokenGetter() {
     QuizDetailComponent,
     AddQuestionComponent,
     ManageUsersComponent,
-    SystemSettingComponent
+    SystemSettingComponent,
+    MyProgressComponent,
+    EmailVerificationComponent
   ],
   imports: [
     RouterModule,

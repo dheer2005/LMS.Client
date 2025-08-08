@@ -14,6 +14,8 @@ import { QuizDetailComponent } from './Quiz/quiz-detail/quiz-detail.component';
 import { AddQuestionComponent } from './Quiz/add-question/add-question.component';
 import { ManageUsersComponent } from './Admin/manage-users/manage-users.component';
 import { SystemSettingComponent } from './Admin/system-setting/system-setting.component';
+import { MyProgressComponent } from './my-progress/my-progress.component';
+import { EmailVerificationComponent } from './Auth/email-verification/email-verification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -30,6 +32,8 @@ const routes: Routes = [
   { path: 'add-question/:quizId', component: AddQuestionComponent, canActivate: [AuthGuard] },
   { path: 'manage-users', component: ManageUsersComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SystemSettingComponent, canActivate: [AuthGuard]},
+  { path: 'my-progress', component: MyProgressComponent, canActivate: [AuthGuard]},
+  { path: 'verify', component: EmailVerificationComponent},
   { path: '**', redirectTo: 'login' }
 ];
 

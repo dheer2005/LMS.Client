@@ -5,11 +5,7 @@ export interface SystemSetting {
 
   maxVideoUploadSizeMB: number;
   allowedVideoFormats: string;
-  requireEnrollmentApproval: boolean;
-
-  defaultQuizTimeMinutes: number;
   quizRetakeLimit: number;
-  passPercentage: number;
 
   registrationEnabled: boolean;
   requireEmailVerification: boolean;

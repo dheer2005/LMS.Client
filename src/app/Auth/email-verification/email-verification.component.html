@@ -1,0 +1,28 @@
+
+<section class="email-verification">
+    <h1>😎 One Time Password 🤙</h1>
+    <form (ngSubmit)="onSubmit()">
+      <h2>Email Verification</h2>
+      <p>
+        <strong>For your security</strong>, you should change your account's default
+        password <strong>right now</strong>. Keep your information protected at all
+        times.
+      </p>
+      <p>
+        A <strong>code</strong> has been sent to the
+        <strong>email</strong>:
+      </p>
+      <h3>{{register.email}}</h3>
+    
+      <div class="aside">
+        <input type="text" name="inputText" [(ngModel)]="otp" placeholder="______" maxlength="6">
+        
+      </div>
+        
+      
+      <span>Enter the code that was sent to your email.</span>
+      
+      <button >Verify Account &rarr;</button>
+    </form>
+
+</section>

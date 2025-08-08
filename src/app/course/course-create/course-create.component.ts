@@ -49,7 +49,9 @@ export class CourseCreateComponent implements OnInit {
           this.fileInputRef.nativeElement.value = '';
         }
       },
-      error: () => this.toastSvc.error('❌ Failed')
+      error: () => {
+        this.toastSvc.error('❌ Failed');
+      }
     });
   }
 
