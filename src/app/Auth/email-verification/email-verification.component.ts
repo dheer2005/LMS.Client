@@ -14,7 +14,8 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
   constructor(private router: Router, private apiSvc: ApiService, @Inject(PLATFORM_ID) private platformId:any, private toastrSvc: ToastrService){}
 
   formRegistration:any;
-  register = { fullName: '', email: '', password: '', role: 'Student' };
+  register = { fullName: '', email: '', isEmailVerified: false , password: '', role: 'Student' };
+  email = { emailTo: '', subject: '', body: '', userName: '' }
 
   otp:any;
 
@@ -26,6 +27,7 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
     if(isPlatformBrowser(this.platformId)){
       this.formRegistration = window.history.state?.formReg;
       this.register = window.history.state?.registerObj;
+      this.email = window.history.state?.emailObj;
 
       if (!this.formRegistration) {
         this.router.navigateByUrl('register');
@@ -36,6 +38,10 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
   onSubmit(){
     this.apiSvc.verifyUser(this.register.fullName, this.otp).subscribe({
       next: (res:any)=>{
+        this.register = {
+          ...this.register,
+          isEmailVerified: true
+        }
         this.apiSvc.register(this.register).subscribe({
           next: (data:any)=>{
             this.toastrSvc.success('User registered');
@@ -45,6 +51,20 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
             this.toastrSvc.warning(err.error.message);
           }
         })
+      },
+      error: (err:any)=>{
+        this.toastrSvc.warning(err.error.message);
+      }
+    });
+  }
+
+  resendOTP(){
+    this.apiSvc.SendEmail(this.email).subscribe({
+      next: (res:any)=>{
+        this.toastrSvc.success("OTP has been sent to your mail");
+      },
+      error: (err:any)=>{
+        this.toastrSvc.warning(err.error.message,"Email")
       }
     })
   }

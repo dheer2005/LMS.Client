@@ -12,7 +12,7 @@ import { json } from 'stream/consumers';
 })
 export class RegisterComponent implements OnInit {
 
-  registerData = { fullName: '', email: '', password: '', role: 'Student' };
+  registerData = { fullName: '', email: '', isEmailVerified: false, password: '', role: 'Student' };
   showOtpForm = false;
   email = {
     emailTo: '',
@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
     body: '',
     userName:''
   }
+  processing: boolean = false;
 
   requireEmailVerification?: boolean;
 
@@ -28,6 +29,7 @@ export class RegisterComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router, private apiSvc: ApiService, private toastSvc: ToastrService) {}
 
   onRegister() {
+    this.processing = true;
     if(this.requireEmailVerification){
       this.apiSvc.AlreadyExists(this.registerData).subscribe({
         next: (res:any)=>{
@@ -39,23 +41,27 @@ export class RegisterComponent implements OnInit {
           }
           this.apiSvc.SendEmail(this.email).subscribe({
             next: (data:any)=>{
-              this.router.navigateByUrl('/verify', {state:{registerObj: this.registerData, formReg: true}});
-              this.toastSvc.success("Otp has sent to your registered mail");
+              this.processing = false;
+              this.router.navigateByUrl('/verify', {state:{registerObj: this.registerData, formReg: true, emailObj: this.email}});
+              this.toastSvc.success("Email verification code sent successfully");
             },
             error: (err:any)=>{
-              this.toastSvc.warning("Something went wrong! retry after sometime");
+              this.toastSvc.warning(err.error.message, 'Email');
             }
           });
+        },
+        error: (err:any)=>{
+          this.toastSvc.warning(err.error.message);
         }
       })
     }else{
       this.apiSvc.register(this.registerData).subscribe({
         next: (res:any) => {
+          this.processing = false;
           this.toastSvc.success('Registered successfully', 'Registered');
           this.router.navigate(['/login']);
         },
         error: (err:any) => {
-          // console.log(JSON.stringify(err.error));
           this.toastSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');
         }
       });
@@ -67,7 +73,6 @@ export class RegisterComponent implements OnInit {
     this.apiSvc.getSystemSetting().subscribe({
       next: (res:any)=>{
         this.requireEmailVerification = res.requireEmailVerification;
-        console.log("requireemailverification", this.requireEmailVerification);
       }
     })
   }
