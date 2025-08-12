@@ -83,7 +83,9 @@ export class VideoUploadComponent implements OnInit {
         this.isUploading = false;
         this.toastSvc.success('✅ Video uploaded successfully!', 'Uploaded');
         this.title = '';
-        this.selectedCourseId = 0;
+        if(!this.isCoursePreselected){
+          this.selectedCourseId = 0;
+        }
         this.selectedFile = null;
         this.description = '';
         if(this.fileInputRef){
