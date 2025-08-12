@@ -10,7 +10,7 @@ export class ThemeService {
   theme$ = this.themeSubject.asObservable();
 
   constructor() {
-    this.setTheme(this.themeSubject.value); // initialize theme
+    this.setTheme(this.themeSubject.value);
   }
 
   private getStoredTheme(): 'light' | 'dark' {
@@ -38,30 +38,4 @@ export class ThemeService {
   getTheme(): 'light' | 'dark' {
     return this.themeSubject.value;
   }
-
-  // constructor() {
-  //   const savedTheme = localStorage.getItem(this.themeKey) as 'light' | 'dark' | null;
-  //   this.setTheme(savedTheme === 'dark' ? 'dark' : 'light');
-  // }
-
-  // setTheme(theme: 'light' | 'dark') {
-  //   const body = document.body;
-
-  //   if (theme === 'dark') {
-  //     body.classList.add('dark-theme');
-  //     localStorage.setItem(this.themeKey, 'dark');
-  //   } else {
-  //     body.classList.remove('dark-theme');
-  //     localStorage.setItem(this.themeKey, 'light');
-  //   }
-  // }
-
-  // toggleTheme() {
-  //   const current = this.getTheme();
-  //   this.setTheme(current === 'dark' ? 'light' : 'dark');
-  // }
-
-  // getTheme(): 'light' | 'dark' {
-  //   return (localStorage.getItem(this.themeKey) as 'light' | 'dark') || 'light';
-  // }
 }
