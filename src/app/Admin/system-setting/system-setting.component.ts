@@ -105,6 +105,7 @@ export class SystemSettingComponent implements OnInit {
         this.setting = s;
       },
       error: (err) => {
+        this.loading = true;
         console.error('Failed to load settings', err);
       }
     });
