@@ -17,6 +17,7 @@ export class QuizDetailComponent implements OnInit {
   scoreResult: any;
   userRole?: string
   userId?: number;
+  CannotAttempt: boolean = false;
   
 
   constructor(private route: ActivatedRoute, private api: ApiService, private authSvc: AuthService, private router: Router, private toastrSvc: ToastrService) {
@@ -35,6 +36,7 @@ export class QuizDetailComponent implements OnInit {
         }
       },
       error: (err:any)=>{
+        this.CannotAttempt = true;
         this.toastrSvc.warning(`${err.error.message}`);
       }
     });
@@ -79,9 +81,8 @@ export class QuizDetailComponent implements OnInit {
           AttemptNumber: 1
         }
 
-        console.log("quizsubmissionDto before submission:", quizSubmissionDto);
         this.api.quizSubmission(quizSubmissionDto).subscribe((res:any)=>{
-          console.log(res);
+          // console.log(res);
         });
 
         this.toastrSvc.success('Quiz submitted successfully!', 'Success');

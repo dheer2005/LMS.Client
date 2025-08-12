@@ -17,13 +17,26 @@ export class CourseOverviewComponent implements OnInit {
   quizzes: any[] = [];
   searchTerm: string = '';
   userRole: string = '';
+  studentId?: number;
+  isEnrolled?: boolean;
 
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router, private authSvc: AuthService, private toastrSvc: ToastrService) {
     this.userRole = this.authSvc.getRole();
+    this.studentId = Number(this.authSvc.getId());
   }
 
   ngOnInit(): void {
     this.courseId = +this.route.snapshot.params['id'];
+
+    if(this.userRole == "Student"){
+      this.api.isEnrolled(this.studentId!,this.courseId).subscribe({
+        next: (res)=>{
+          if(!res){
+            this.router.navigateByUrl('view-courses');
+          }
+        }
+      });
+    }
 
     this.api.getCourseOverview(this.courseId).subscribe((res: any) => {
       this.course = res;
@@ -68,7 +81,7 @@ export class CourseOverviewComponent implements OnInit {
 
     this.api.trackVideoWatch(payload).subscribe({
       next: (res:any)=>{
-        this.toastrSvc.success(res.message);
+        // this.toastrSvc.success(res.message);
       },
       error: (err:any)=>{
         this.toastrSvc.warning('Failed to track video watch', err);

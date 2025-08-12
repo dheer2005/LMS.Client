@@ -14,6 +14,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       this.role = this.auth.getRole();
+      // console.log(route.routeConfig?.path)
       if(this.role == 'Admin' && (
         (route.routeConfig?.path === "create-course") ||
         (route.routeConfig?.path === "my-courses") ||

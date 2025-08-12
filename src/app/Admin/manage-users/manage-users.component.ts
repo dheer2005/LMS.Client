@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/Services/api.service';
 import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Popover } from 'bootstrap';
 import { Form, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-users',
@@ -19,26 +20,39 @@ export class ManageUsersComponent implements OnInit {
   registerTeacherData = { fullName: '', email: '', password: '', role: this.registerRole };
 
   selectedUserId: number | null = null;
+  requireEmailVerification?: boolean;
   editUserData = {
     fullName: '',
     email: '',
     role: ''
   };
 
-  constructor(private apiSvc: ApiService, private toastrSvc: ToastrService) {}
+  email = {
+    emailTo: '',
+    subject: '',
+    body: '',
+    userName:''
+  }
+
+  constructor(private apiSvc: ApiService, private toastrSvc: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadUsers();
   }
 
   loadUsers(){
+    this.apiSvc.getSystemSetting().subscribe({
+      next: (res:any)=>{
+        this.requireEmailVerification = res.requireEmailVerification;
+      }
+    })
     this.apiSvc.getAllUser().subscribe({
       next: (res: any) => {
         this.users = res;
         this.students = res.filter((user:any) => user.role === 'Student');
         this.teachers = res.filter((user:any) => user.role === 'Teacher');
-        console.log("Students:", this.students);
-        console.log("Teachers:", this.teachers);
+        // console.log("Students:", this.students);
+        // console.log("Teachers:", this.teachers);
       },
       error: err => {
         this.toastrSvc.error('Error fetching users', err);
@@ -47,17 +61,40 @@ export class ManageUsersComponent implements OnInit {
   }
 
   onRegister(form: NgForm) {
-    console.log("registerTeacherData:", this.registerTeacherData);
-    this.apiSvc.register(this.registerTeacherData).subscribe({
-      next: () => {
-        this.loadUsers();
-        this.toastrSvc.success('Registered successfully', 'Registered');
-        form.reset();
-      },
-      error: (err:any) => {
-        this.toastrSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');
-      }
-    });
+    if(this.requireEmailVerification){
+      this.apiSvc.AlreadyExists(this.registerTeacherData).subscribe({
+        next: (res:any)=>{
+          this.email = {
+            emailTo: this.registerTeacherData.email,
+            subject: '',
+            body: '',
+            userName: this.registerTeacherData.fullName
+          }
+          this.apiSvc.SendEmail(this.email).subscribe({
+            next: (data:any)=>{
+              this.router.navigateByUrl('/verify', {state:{registerObj: this.registerTeacherData, formReg: true, emailObj: this.email}});
+              this.toastrSvc.success("Email verification code sent successfully");
+            },
+            error: (err:any)=>{
+              this.toastrSvc.warning(err.error.message, 'Email');
+            }
+          });
+        },
+        error: (err:any)=>{
+          this.toastrSvc.warning(err.error.message);
+        }
+      })
+    }else{
+      this.apiSvc.register(this.registerTeacherData).subscribe({
+        next: (res:any) => {
+          this.toastrSvc.success('Registered successfully', 'Registered');
+          this.router.navigate(['/login']);
+        },
+        error: (err:any) => {
+          this.toastrSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');
+        }
+      });
+    }
   }
 
   viewUser(user: any, element: HTMLElement) {

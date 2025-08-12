@@ -1,7 +1,6 @@
 <div class="container mt-4" *ngIf="quiz">
   <h3 class="mb-4">{{ quiz.title }}</h3>
 
-  <!-- 🧑‍🎓 Student View -->
   <form *ngIf="userRole === 'Student' && !scoreResult" (ngSubmit)="submitQuiz()">
     <div *ngFor="let q of quiz.questions" class="mb-4">
       <h5>{{ q.questionText }}</h5>
@@ -23,7 +22,6 @@
     <button class="btn btn-primary mt-3 mb-3">Submit</button>
   </form>
 
-  <!-- 👨‍🏫 Teacher View -->
   <form *ngIf="userRole === 'Teacher'" (ngSubmit)="addQuestionToQuiz()">
     <div *ngFor="let q of quiz.questions" class="mb-4">
       <h5>{{ q.questionText }}</h5>
@@ -81,4 +79,11 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="CannotAttempt" class="attempt-warning">
+  <div>
+    ❌ You have reached the maximum number of attempts. You Cannot attemp this quiz again.
+  </div>
+  <a href="view-courses">Go back</a>
 </div>
