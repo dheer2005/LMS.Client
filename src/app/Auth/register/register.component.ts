@@ -46,6 +46,7 @@ export class RegisterComponent implements OnInit {
               this.toastSvc.success("Email verification code sent successfully");
             },
             error: (err:any)=>{
+              this.processing = false;
               this.toastSvc.warning(err.error.message, 'Email');
             }
           });
@@ -62,6 +63,7 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error: (err:any) => {
+          this.processing = false;
           this.toastSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');
         }
       });
