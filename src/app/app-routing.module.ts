@@ -16,6 +16,7 @@ import { ManageUsersComponent } from './Admin/manage-users/manage-users.componen
 import { SystemSettingComponent } from './Admin/system-setting/system-setting.component';
 import { MyProgressComponent } from './my-progress/my-progress.component';
 import { EmailVerificationComponent } from './Auth/email-verification/email-verification.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,7 +35,7 @@ const routes: Routes = [
   { path: 'settings', component: SystemSettingComponent, canActivate: [AuthGuard]},
   { path: 'my-progress', component: MyProgressComponent, canActivate: [AuthGuard]},
   { path: 'verify', component: EmailVerificationComponent},
-  { path: '**', redirectTo: 'login' }
+  { path: '**', component: PagenotfoundComponent }
 ];
 
 @NgModule({

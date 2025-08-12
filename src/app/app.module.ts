@@ -25,6 +25,7 @@ import { SystemSettingComponent } from './Admin/system-setting/system-setting.co
 import { JwtModule } from '@auth0/angular-jwt';
 import { MyProgressComponent } from './my-progress/my-progress.component';
 import { EmailVerificationComponent } from './Auth/email-verification/email-verification.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Lms_token'); 
@@ -47,7 +48,8 @@ export function tokenGetter() {
     ManageUsersComponent,
     SystemSettingComponent,
     MyProgressComponent,
-    EmailVerificationComponent
+    EmailVerificationComponent,
+    PagenotfoundComponent
   ],
   imports: [
     RouterModule,

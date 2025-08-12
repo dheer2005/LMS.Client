@@ -8,11 +8,12 @@ import { AuthService } from '../Services/auth.service';
 })
 export class AuthGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router){}
-  role: string = this.auth.getRole();
+  role?: string;
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      this.role = this.auth.getRole();
       if(this.role == 'Admin' && (
         (route.routeConfig?.path === "create-course") ||
         (route.routeConfig?.path === "my-courses") ||
@@ -31,7 +32,6 @@ export class AuthGuard implements CanActivate {
         (route.routeConfig?.path === "create-course") ||
         (route.routeConfig?.path === "my-courses") ||
         (route.routeConfig?.path === "upload-video/:id") ||
-        (route.routeConfig?.path === "course-overview/:id") ||
         (route.routeConfig?.path === "add-quiz/:id") ||
         (route.routeConfig?.path === "manage-users") ||
         (route.routeConfig?.path === "add-question/:quizId") ||

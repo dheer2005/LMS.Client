@@ -91,6 +91,7 @@ export class VideoUploadComponent implements OnInit {
         }
       },
       error: (err:any) => {
+        this.isUploading = false;
         this.toastSvc.error(`${JSON.stringify(err.error.message)}`,'❌ Upload failed.');
       }
     });

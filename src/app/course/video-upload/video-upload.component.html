@@ -2,7 +2,7 @@
   <div class="card p-4 shadow-sm">
     <h4 class="mb-3 text-primary">📹 Upload Course Video</h4>
 
-    <form (ngSubmit)="uploadVideo()" enctype="multipart/form-data">
+    <form #videoForm="ngForm"  (ngSubmit)="uploadVideo()" enctype="multipart/form-data">
       
       <!-- Course Selection -->
       <div class="mb-3">
@@ -60,7 +60,7 @@
       </div>
 
       <!-- Submit Button -->
-      <button [disabled]="isUploading" class="btn btn-primary w-100" type="submit">
+      <button [disabled]="isUploading || videoForm.invalid" class="btn btn-primary w-100" type="submit">
         ⬆️ Upload
       </button>
     </form>

@@ -26,7 +26,9 @@ export class ViewCoursesComponent implements OnInit {
   
     ngOnInit() {
       this.apiSvc.getAllCourses(this.studentId!).subscribe((res:any) => {
-        this.courses = res;
+        this.courses = res.sort((a:any,b:any)=>{
+          return (b.isEnrolled ? 1 : 0) - (a.isEnrolled ? 1 : 0);
+        });
       });
     }
 
