@@ -3,8 +3,9 @@
     <h4 class="mb-4 text-primary"><i class="fa-solid fa-folder-plus"></i> Create a New Course</h4>
     <form (ngSubmit)="createCourse()" #courseForm="ngForm" enctype="multipart/form-data">
       <div class="mb-3">
-        <label class="form-label">Course Title</label>
+        <label for="title" class="form-label">Course Title</label>
         <input
+          id="title"
           type="text"
           class="form-control"
           [(ngModel)]="course.title"
@@ -14,8 +15,9 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Description</label>
+        <label for="description" class="form-label">Description</label>
         <textarea
+          id="description"
           class="form-control"
           [(ngModel)]="course.description"
           name="description"
@@ -25,17 +27,19 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Course Price</label>
+        <label for="price" class="form-label">Course Price</label>
         <input
+          id="price"
           type="number"
           class="form-control"
           [(ngModel)]="course.price"
           name="Price"
           required
+          placeholder="Enter price"
         />
       </div>
 
-      <div class="mb-3">
+      <div class="mb-3" >
         <label class="form-label">Course Thumbnail</label>
         <input
           type="file"
@@ -46,7 +50,7 @@
         />
       </div>
 
-      <button [disabled]="isCreating" class="btn btn-success w-100" type="submit">
+      <button [disabled]="courseForm.invalid || isCreating" class="btn btn-success w-100" type="submit">
         <i class="fas fa-plus me-1"></i> Create Course
       </button>
     </form>
