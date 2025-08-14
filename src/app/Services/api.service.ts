@@ -7,8 +7,8 @@ import { PaymentDTO } from 'DTOs/paymentDto.dto';
 })
 export class ApiService {
 
-  // ApiUrl: string = 'https://localhost:7071/api/';
-  ApiUrl: string = 'https://SmartLms.bsite.net/api/';
+  ApiUrl: string = 'https://localhost:7071/api/';
+  // ApiUrl: string = 'https://SmartLms.bsite.net/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -78,6 +78,10 @@ export class ApiService {
 
   quizSubmission(payload: any){
     return this.http.post(`${this.ApiUrl}Quiz/quizSubmission`, payload);
+  }
+
+  getQuizResults(quizId:number){
+    return this.http.get(`${this.ApiUrl}Quiz/results/${quizId}`);
   }
 
   //payment

@@ -1,5 +1,5 @@
 <div class="container mt-5">
-  <h4 class="mb-3 text-primary">📚 My Created Courses</h4>
+  <h4 class="mb-3 text-primary"><i class="fa-solid fa-folder-open"></i> My Created Courses</h4>
   <div *ngIf="courses.length === 0" class="alert alert-warning">No courses created yet.</div>
 
   <div class="row">
@@ -11,8 +11,8 @@
           <div class="description-text">
             <p class="card-text">{{ course.description }}</p>
           </div>
-          <button class="btn btn-primary" (click)="goToUpload(course.id!)">📹 Upload Video</button>
-          <button class="btn btn-outline-info ms-2" [routerLink]="['/course-overview', course.id]">👁️ View Overview</button>
+          <button class="btn btn-primary" (click)="goToUpload(course.id!)"><i class="fas fa-play-circle me-2"></i> Upload Video</button>
+          <button class="btn btn-outline-info ms-2" [routerLink]="['/course-overview', course.id]"><i class="fa-solid fa-eye"></i> View Overview</button>
         </div>
       </div>
     </div>

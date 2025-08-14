@@ -1,22 +1,45 @@
-.video-scroll-container {
-  height: 300px;
-  overflow-y: auto;
-  padding-right: 5px;
-  scrollbar-width: thin;
+.video-wrapper video {
+  border-radius: 8px;
 }
 
 .video-item {
-  position: relative;
-  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.video-title {
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.video-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
 }
 
-.img-thumbnail{
-  height: 180px;
+.video-scroll-container {
+  max-height: 325px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding-right: 5px;
+}
+
+.quiz-item:hover {
+  background-color: #f8f9fa;
+}
+
+
+.doubts-scroll-container {
+  max-height: 250px; /* prevents it from taking over the page */
+  overflow-y: auto;
+  padding-right: 5px;
+  scrollbar-width: thin; /* Firefox */
+}
+
+.doubts-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.doubts-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.doubts-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
 }

@@ -1,6 +1,6 @@
 <div class="container mt-5 col-md-6">
   <div class="card p-4 shadow-sm">
-    <h4 class="mb-3 text-primary">📹 Upload Course Video</h4>
+    <h4 class="mb-3 text-primary"><i class="fas fa-play-circle me-2"></i> Upload Course Video</h4>
 
     <form #videoForm="ngForm"  (ngSubmit)="uploadVideo()" enctype="multipart/form-data">
       
@@ -61,7 +61,7 @@
 
       <!-- Submit Button -->
       <button [disabled]="isUploading || videoForm.invalid" class="btn btn-primary w-100" type="submit">
-        ⬆️ Upload
+        <i class="fa-solid fa-upload"></i> Upload
       </button>
     </form>
   </div>

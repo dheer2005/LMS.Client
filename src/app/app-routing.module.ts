@@ -17,6 +17,9 @@ import { SystemSettingComponent } from './Admin/system-setting/system-setting.co
 import { MyProgressComponent } from './my-progress/my-progress.component';
 import { EmailVerificationComponent } from './Auth/email-verification/email-verification.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { DoubtComponent } from './course/doubt/doubt.component';
+import { QuizResultListComponent } from './Quiz/quiz-result-list/quiz-result-list.component';
+import { QuizResultDetailComponent } from './Quiz/quiz-result-detail/quiz-result-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -35,6 +38,9 @@ const routes: Routes = [
   { path: 'settings', component: SystemSettingComponent, canActivate: [AuthGuard]},
   { path: 'my-progress', component: MyProgressComponent, canActivate: [AuthGuard]},
   { path: 'verify', component: EmailVerificationComponent},
+  { path: 'doubts/:id', component: DoubtComponent},
+  { path: 'quiz-results/:courseId', component: QuizResultListComponent},
+  { path: 'quiz-result-detail/:quizId', component: QuizResultDetailComponent},
   { path: '**', component: PagenotfoundComponent }
 ];
 

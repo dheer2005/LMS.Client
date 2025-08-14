@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { error } from 'console';
@@ -20,7 +21,7 @@ export class QuizDetailComponent implements OnInit {
   CannotAttempt: boolean = false;
   
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private authSvc: AuthService, private router: Router, private toastrSvc: ToastrService) {
+  constructor(private route: ActivatedRoute,private location : Location, private api: ApiService, private authSvc: AuthService, private router: Router, private toastrSvc: ToastrService) {
     this.userRole = this.authSvc.getRole();
     this.userId = Number(this.authSvc.getId());
   }
@@ -95,5 +96,8 @@ export class QuizDetailComponent implements OnInit {
 
   addQuestionToQuiz(){
     this.router.navigate(['/add-question', this.quizId]);
+  }
+  Back(){
+    this.location.back();
   }
 }

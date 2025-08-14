@@ -1,0 +1,73 @@
+<div class="card mt-4 shadow-sm border-0">
+  <div class="card-header bg-gradient-primary text-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0">📚 Course Doubts</h5>
+    <span class="badge bg-light text-dark">{{ courseDoubts.length }} Total</span>
+  </div>
+
+  <div class="card-body p-0">
+    <div *ngIf="courseDoubts.length === 0" class="alert alert-info m-3">
+      No doubts raised yet.
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let doubt of courseDoubts" class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong class="text-primary">{{ doubt.title }}</strong>
+          <span class="badge rounded-pill"
+                [ngClass]="doubt.isResolved ? 'bg-success' : 'bg-warning text-dark'">
+            {{ doubt.isResolved ? '✅ Resolved' : '⏳ Pending' }}
+          </span>
+        </div>
+
+        <p class="mb-1 text-muted">{{ doubt.description }}</p>
+
+        <!-- Show replies -->
+        <div *ngIf="doubt.replies?.length > 0" class="bg-light p-2 rounded">
+          <small class="text-success fw-bold">Reply from Teacher:</small>
+          <p class="mb-0">{{ doubt.replies[0].replyText }}</p>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="mt-2">
+          <button *ngIf="!doubt.isResolved" 
+                  class="btn btn-sm btn-outline-success me-2"
+                  (click)="openResolveModal(doubt)">
+            ✍ Resolve
+          </button>
+          <button class="btn btn-sm btn-outline-primary"
+                  (click)="doubt.showDetails = !doubt.showDetails">
+            {{ doubt.showDetails ? 'Hide Details' : 'View Details' }}
+          </button>
+        </div>
+
+        <!-- Collapsible details -->
+        <div *ngIf="doubt.showDetails" class="mt-2 small text-muted">
+          <hr>
+          <strong>Student Name:</strong> {{ doubt.student.fullName }} <br>
+          <strong>Raised On:</strong> {{ doubt.createdAt | date:'medium' }}
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Resolve Modal -->
+<div class="modal fade show d-block" tabindex="-1" *ngIf="showModal" style="background: rgba(0,0,0,0.5)">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Resolve Doubt</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Your Reply</label>
+        <textarea [(ngModel)]="replyContent" class="form-control" rows="4"
+                  placeholder="Write your reply here..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-success" (click)="sendReply()">✅ Send Reply</button>
+      </div>
+    </div>
+  </div>
+</div>

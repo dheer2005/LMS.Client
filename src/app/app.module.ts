@@ -26,6 +26,9 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { MyProgressComponent } from './my-progress/my-progress.component';
 import { EmailVerificationComponent } from './Auth/email-verification/email-verification.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { DoubtComponent } from './course/doubt/doubt.component';
+import { QuizResultListComponent } from './Quiz/quiz-result-list/quiz-result-list.component';
+import { QuizResultDetailComponent } from './Quiz/quiz-result-detail/quiz-result-detail.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Lms_token'); 
@@ -49,7 +52,10 @@ export function tokenGetter() {
     SystemSettingComponent,
     MyProgressComponent,
     EmailVerificationComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    DoubtComponent,
+    QuizResultListComponent,
+    QuizResultDetailComponent
   ],
   imports: [
     RouterModule,

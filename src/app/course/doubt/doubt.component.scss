@@ -1,0 +1,31 @@
+// .teacher-dashboard {
+//   max-width: 800px;
+// }
+
+// .card {
+//   border-radius: 10px;
+// }
+
+// .reply-box textarea {
+//   resize: none;
+// }
+
+// .reply-box button {
+//   min-width: 100px;
+// }
+
+.card-header {
+  background: linear-gradient(90deg, #007bff, #0056b3);
+}
+
+.list-group-item {
+  transition: background 0.2s ease;
+}
+
+.list-group-item:hover {
+  background: #f8f9fa;
+}
+
+.badge {
+  font-size: 0.8rem;
+}
