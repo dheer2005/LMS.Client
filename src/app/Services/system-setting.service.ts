@@ -7,8 +7,8 @@ import { SystemSetting } from 'src/Models/system-setting.model';
   providedIn: 'root'
 })
 export class SystemSettingService {
-  ApiUrl: string = 'https://localhost:7071/api/Admin';
-  // ApiUrl: string = 'https://SmartLms.bsite.net/api/Admin';
+  // ApiUrl: string = 'https://localhost:7071/api/Admin';
+  ApiUrl: string = 'https://SmartLms.bsite.net/api/Admin';
 
   constructor(private http: HttpClient) { }
 

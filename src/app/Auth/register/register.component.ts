@@ -13,6 +13,8 @@ import { json } from 'stream/consumers';
 export class RegisterComponent implements OnInit {
 
   registerData = { fullName: '', email: '', isEmailVerified: false, password: '', role: 'Student' };
+  
+  confirmPassword: string = '';
   showOtpForm = false;
   email = {
     emailTo: '',

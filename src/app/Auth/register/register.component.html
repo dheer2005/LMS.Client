@@ -54,25 +54,24 @@
       </div>
 
       <div class="mb-3">
-        <label for="role" class="form-label">Role</label>
-        <select
-          name="role"
-          [(ngModel)]="registerData.role"
-          #role="ngModel"
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          #confirmpassword="ngModel"
           required
-          class="form-select"
-          id="role">
-          <option value="">Select role</option>
-          <option value="Student">Student</option>
-          <option value="Teacher">Teacher</option>
-          <!-- <option value="Admin">Admin</option> -->
-        </select>
-        <div *ngIf="role.invalid && role.touched" class="text-danger small mt-1">
-          Role is required.
+          minlength="6"
+          class="form-control"
+          id="confirmPassword"
+          placeholder="Enter password" />
+        <div *ngIf="confirmpassword.touched && confirmPassword !== registerData.password" class="text-danger small mt-1">
+
+          ConfirmPassword must same as password.
         </div>
       </div>
 
-      <button type="submit" class="btn btn-success w-100 mt-2" [disabled]="registerForm.invalid || processing">
+      <button type="submit" class="btn btn-success w-100 mt-2" [disabled]="registerForm.invalid || processing || confirmPassword !== registerData.password">
         Register
       </button>
 

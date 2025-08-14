@@ -11,8 +11,8 @@ export class DoubtService {
   private doubtSubject = new Subject<any>();
   private replySubject = new Subject<any>();
 
-  private apiUrl = 'https://localhost:7071/api/Doubt';
-  // private apiUrl = 'https://SmartLms.bsite.net/api/Doubt';
+  // private apiUrl = 'https://localhost:7071/api/Doubt';
+  private apiUrl = 'https://SmartLms.bsite.net/api/Doubt';
 
   constructor(private http: HttpClient) { }
 
@@ -59,8 +59,8 @@ export class DoubtService {
     return this.http.get(`${this.apiUrl}/course/${courseId}`);
   }
 
-  getStudentDoubts(studentId: number){
-    return this.http.get(`${this.apiUrl}/mine/${studentId}`);
+  getStudentDoubts(studentId: number, courseId: number){
+    return this.http.get(`${this.apiUrl}/mine/${studentId}/${courseId}`);
   }
 
   replyToDoubt(reply: any) {

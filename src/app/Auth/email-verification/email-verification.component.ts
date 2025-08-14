@@ -3,6 +3,7 @@ import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-email-verification',
@@ -11,9 +12,10 @@ import { ApiService } from 'src/app/Services/api.service';
 })
 export class EmailVerificationComponent implements OnInit, AfterViewInit {
 
-  constructor(private router: Router, private apiSvc: ApiService, @Inject(PLATFORM_ID) private platformId:any, private toastrSvc: ToastrService){}
+  constructor(private router: Router, private apiSvc: ApiService, @Inject(PLATFORM_ID) private platformId:any, private toastrSvc: ToastrService, private authSvc: AuthService){}
 
   formRegistration:any;
+  isLoggedIn = this.authSvc.isLoggedIn();
   register = { fullName: '', email: '', isEmailVerified: false , password: '', role: 'Student' };
   email = { emailTo: '', subject: '', body: '', userName: '' }
 
@@ -45,7 +47,11 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
         this.apiSvc.register(this.register).subscribe({
           next: (data:any)=>{
             this.toastrSvc.success('User registered');
-            this.router.navigateByUrl('login');
+            if(this.isLoggedIn){
+              this.router.navigateByUrl('manage-users');
+            }else{
+              this.router.navigateByUrl('login');
+            }
           },
           error: (err:any)=>{
             this.toastrSvc.warning(err.error.message);

@@ -16,23 +16,12 @@ export class ManageUsersComponent implements OnInit {
   users: any[] = [];
   students: any[] = [];
   teachers: any[] = [];
-  registerRole: string = 'Teacher'
-  registerTeacherData = { fullName: '', email: '', password: '', role: this.registerRole };
-
+  registerRole: string = 'Teacher';
   selectedUserId: number | null = null;
   requireEmailVerification?: boolean;
-  editUserData = {
-    fullName: '',
-    email: '',
-    role: ''
-  };
-
-  email = {
-    emailTo: '',
-    subject: '',
-    body: '',
-    userName:''
-  }
+  registerTeacherData = { fullName: '', email: '', password: '', role: this.registerRole };
+  editUserData = { fullName: '', email: '', role: '' };
+  email = { emailTo: '', subject: '', body: '', userName:'' }
 
   constructor(private apiSvc: ApiService, private toastrSvc: ToastrService, private router: Router) {}
 
@@ -45,14 +34,12 @@ export class ManageUsersComponent implements OnInit {
       next: (res:any)=>{
         this.requireEmailVerification = res.requireEmailVerification;
       }
-    })
+    });
     this.apiSvc.getAllUser().subscribe({
       next: (res: any) => {
         this.users = res;
         this.students = res.filter((user:any) => user.role === 'Student');
         this.teachers = res.filter((user:any) => user.role === 'Teacher');
-        // console.log("Students:", this.students);
-        // console.log("Teachers:", this.teachers);
       },
       error: err => {
         this.toastrSvc.error('Error fetching users', err);
@@ -143,17 +130,15 @@ export class ManageUsersComponent implements OnInit {
 
   submitEditForm() {
     if (!this.selectedUserId) return;
+    this.closeModal('editUserModal');
 
     this.apiSvc.updateUser(this.selectedUserId, this.editUserData).subscribe({
       next: () => {
         this.toastrSvc.success('User updated successfully!', 'User');
         this.loadUsers();
-
-        this.closeModal('editUserModal');
       },
       error: err => {
-        // this.toastrSvc.error('Error updating user', err);
-        this.toastrSvc.error('Failed to update user.');
+        this.toastrSvc.error(err.error.message,'Update');
       }
     });
   }

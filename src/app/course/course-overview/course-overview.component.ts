@@ -94,9 +94,8 @@ export class CourseOverviewComponent implements OnInit {
   }
 
   loadDoubts() {
-    this.doubtService.getStudentDoubts(this.studentId!).subscribe((res: any) => {
+    this.doubtService.getStudentDoubts(this.studentId!,this.courseId).subscribe((res: any) => {
       this.doubts = res;
-      // console.log("student Doubt:", this.doubts);
     });
   }
 
