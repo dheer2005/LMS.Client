@@ -72,7 +72,7 @@
                 <p class="mb-1">{{ doubt.description }}</p>
 
                 <div *ngIf="doubt.replies.length > 0" class="p-2 bg-success bg-opacity-10 rounded">
-                  <strong>✅ Resolved by {{ doubt.replies[0].teacher.fullName }}</strong>
+                  <strong>✅ Resolved by :- {{ doubt.replies[0].teacher.fullName }}</strong>
                   <p class="mb-0">{{ doubt.replies[0].replyText }}</p>
                 </div>
 
@@ -122,13 +122,13 @@
             No quizzes available yet.
           </div>
           <div class="mt-2 text-center">
-            <button *ngIf="userRole === 'Teacher'" class="btn btn-success me-2" (click)="addQuiz()"><i class="fas fa-plus me-1"></i> Add Quiz</button>
             <button *ngIf="userRole === 'Teacher'" class="btn btn-outline-primary" [routerLink]="['/doubts', courseId]">
               <i class="fas fa-users me-1"></i>Student Doubts
             </button>
-            <button *ngIf="userRole === 'Teacher'" class="btn btn-info mt-2" [routerLink]="['/quiz-results', courseId]">
+            <button *ngIf="userRole === 'Teacher'" class="btn btn-outline-info ms-2" [routerLink]="['/quiz-results', courseId]">
               <i class="fas fa-chart-line me-1"></i> View Quiz Results
             </button>
+            <button *ngIf="userRole === 'Teacher'" class="btn btn-outline-success mt-2" (click)="addQuiz()"><i class="fas fa-plus me-1"></i> Add Quiz</button>
           </div>
         </div>
 

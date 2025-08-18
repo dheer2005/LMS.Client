@@ -20,8 +20,16 @@ export class DoubtService {
     if (this.hubConnection) return;
     const token = localStorage.getItem("Lms_token");
 
+    // this.hubConnection = new signalR.HubConnectionBuilder()
+    // .withUrl(`https://localhost:7071/doubthub?userId=${userId}`, {
+    //   withCredentials: true,
+    //   accessTokenFactory: () => token || ""
+    // })
+    // .withAutomaticReconnect()
+    // .build();
+
     this.hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl(`https://localhost:7071/doubthub?userId=${userId}`, {
+    .withUrl(`https://SmartLms.bsite.net/doubthub?userId=${userId}`, {
       withCredentials: true,
       accessTokenFactory: () => token || ""
     })

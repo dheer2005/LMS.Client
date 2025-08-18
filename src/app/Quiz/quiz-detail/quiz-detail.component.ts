@@ -31,7 +31,6 @@ export class QuizDetailComponent implements OnInit {
     this.api.getQuizDetails(this.quizId, this.userId!).subscribe({
       next: (res: any) => {
         this.quiz = res;
-        console.log("quiz details according to the user:",this.quiz);
         if (!res || !res.questions || !Array.isArray(res.questions)) {
           this.toastrSvc.error("Invalid quiz format. No questions found.");
         }
@@ -54,7 +53,7 @@ export class QuizDetailComponent implements OnInit {
     const answeredQuestion = Object.keys(this.answers).length;
 
     if (answeredQuestion < totalQuestions) {
-      this.toastrSvc.info(`Please attempt all ${totalQuestions} questions before submitting.`, 'Info');
+      this.toastrSvc.info(`Please attempt all ${totalQuestions} questions before submitting.`, 'Quiz');
       return;
     }
 
