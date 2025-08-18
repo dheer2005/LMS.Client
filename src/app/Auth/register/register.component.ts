@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
+import { AuthService } from 'src/app/Services/auth.service';
 import { json } from 'stream/consumers';
 
 @Component({
@@ -29,7 +30,7 @@ export class RegisterComponent implements OnInit {
   otp:any;
   minPasswordLength: any;
 
-  constructor(private http: HttpClient, private router: Router, private apiSvc: ApiService, private toastSvc: ToastrService) {
+  constructor(private http: HttpClient, private router: Router, private apiSvc: ApiService, private toastSvc: ToastrService, private authSvc: AuthService) {
     this.apiSvc.getPasswordLength().subscribe({
       next:(res:any)=>{
         this.minPasswordLength = res;
@@ -81,6 +82,9 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.authSvc.isLoggedIn()){
+      this.router.navigateByUrl('/dashboard');
+    }
     this.apiSvc.getSystemSetting().subscribe({
       next: (res:any)=>{
         this.requireEmailVerification = res.requireEmailVerification;
