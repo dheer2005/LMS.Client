@@ -23,12 +23,15 @@
   background-color: #f8f9fa;
 }
 
+p{
+  color: var(--text-color);
+}
 
 .doubts-scroll-container {
-  max-height: 250px; /* prevents it from taking over the page */
+  max-height: 250px; 
   overflow-y: auto;
   padding-right: 5px;
-  scrollbar-width: thin; /* Firefox */
+  scrollbar-width: thin;
 }
 
 .doubts-scroll-container::-webkit-scrollbar {
