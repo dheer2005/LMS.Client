@@ -11,8 +11,8 @@ export class DoubtService {
   private doubtSubject = new Subject<any>();
   private replySubject = new Subject<any>();
 
-  // private apiUrl = 'https://localhost:7071/api/Doubt';
-  private apiUrl = 'https://SmartLms.bsite.net/api/Doubt';
+  private apiUrl = 'https://localhost:7071/api/Doubt';
+  // private apiUrl = 'https://SmartLms.bsite.net/api/Doubt';
 
   constructor(private http: HttpClient) { }
 

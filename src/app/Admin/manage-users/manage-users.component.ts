@@ -22,8 +22,15 @@ export class ManageUsersComponent implements OnInit {
   registerTeacherData = { fullName: '', email: '', password: '', role: this.registerRole };
   editUserData = { fullName: '', email: '', role: '' };
   email = { emailTo: '', subject: '', body: '', userName:'' }
+  minPasswordLength:any;
 
-  constructor(private apiSvc: ApiService, private toastrSvc: ToastrService, private router: Router) {}
+  constructor(private apiSvc: ApiService, private toastrSvc: ToastrService, private router: Router) {
+    this.apiSvc.getPasswordLength().subscribe({
+      next:(res:any)=>{
+        this.minPasswordLength = res;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadUsers();

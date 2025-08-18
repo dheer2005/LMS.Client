@@ -27,9 +27,15 @@ export class RegisterComponent implements OnInit {
   requireEmailVerification?: boolean;
 
   otp:any;
-  minPasswordLength = this.apiSvc.getPasswordLength().subscribe();
+  minPasswordLength: any;
 
-  constructor(private http: HttpClient, private router: Router, private apiSvc: ApiService, private toastSvc: ToastrService) {}
+  constructor(private http: HttpClient, private router: Router, private apiSvc: ApiService, private toastSvc: ToastrService) {
+    this.apiSvc.getPasswordLength().subscribe({
+      next:(res:any)=>{
+        this.minPasswordLength = res;
+      }
+    });
+  }
 
   onRegister() {
     this.processing = true;

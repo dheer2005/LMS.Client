@@ -7,8 +7,8 @@ import { PaymentDTO } from 'DTOs/paymentDto.dto';
 })
 export class ApiService {
 
-  // ApiUrl: string = 'https://localhost:7071/api/';
-  ApiUrl: string = 'https://SmartLms.bsite.net/api/';
+  ApiUrl: string = 'https://localhost:7071/api/';
+  // ApiUrl: string = 'https://SmartLms.bsite.net/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -119,7 +119,7 @@ export class ApiService {
   }
 
   getPasswordLength(){
-    return this.http.get(`${this.ApiUrl}Auth/getPasswordLength`);
+    return this.http.get(`${this.ApiUrl}Admin/getPasswordLength`);
   }
 
   //email verification
