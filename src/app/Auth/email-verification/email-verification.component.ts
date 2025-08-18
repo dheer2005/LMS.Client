@@ -32,7 +32,7 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
       this.email = window.history.state?.emailObj;
 
       if (!this.formRegistration) {
-        this.router.navigateByUrl('register');
+        this.router.navigateByUrl('dashboard');
       }
     }
   }

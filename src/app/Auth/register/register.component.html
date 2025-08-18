@@ -49,7 +49,7 @@
           id="password"
           placeholder="Create password" />
         <div *ngIf="password.invalid && password.touched" class="text-danger small mt-1">
-          Password must be at least 6 characters.
+          Password must be at least {{minPasswordLength}} characters.
         </div>
       </div>
 

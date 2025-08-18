@@ -75,7 +75,6 @@ export class ManageUsersComponent implements OnInit {
       this.apiSvc.register(this.registerTeacherData).subscribe({
         next: (res:any) => {
           this.toastrSvc.success('Registered successfully', 'Registered');
-          this.router.navigate(['/login']);
         },
         error: (err:any) => {
           this.toastrSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');

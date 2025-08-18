@@ -25,7 +25,9 @@ export class AuthGuard implements CanActivate {
         (route.routeConfig?.path === "quiz-detail/:id") ||
         (route.routeConfig?.path === "add-question/:quizId") ||
         (route.routeConfig?.path === "my-progress") ||
-        (route.routeConfig?.path === "verify")
+        (route.routeConfig?.path === "verify") || 
+        (route.routeConfig?.path === "login") || 
+        (route.routeConfig?.path === "register")
       )){
         this.router.navigateByUrl('dashboard');
         return false;
@@ -36,7 +38,9 @@ export class AuthGuard implements CanActivate {
         (route.routeConfig?.path === "add-quiz/:id") ||
         (route.routeConfig?.path === "manage-users") ||
         (route.routeConfig?.path === "add-question/:quizId") ||
-        (route.routeConfig?.path === "settings")
+        (route.routeConfig?.path === "settings")|| 
+        (route.routeConfig?.path === "login") || 
+        (route.routeConfig?.path === "register")
       )){
         this.router.navigateByUrl('dashboard');
         return false;
@@ -44,7 +48,9 @@ export class AuthGuard implements CanActivate {
         (route.routeConfig?.path === "manage-users") ||
         (route.routeConfig?.path === "settings") ||
         (route.routeConfig?.path === "view-courses") ||
-        (route.routeConfig?.path === "my-progress") 
+        (route.routeConfig?.path === "my-progress") || 
+        (route.routeConfig?.path === "login") || 
+        (route.routeConfig?.path === "register")
       )){
         this.router.navigateByUrl('dashboard');
         return false;
