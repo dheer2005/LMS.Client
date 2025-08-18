@@ -29,7 +29,6 @@ export class DoubtComponent implements OnInit {
       if(doubt.studentName && !doubt.student){
         doubt.student = { fullName: doubt.studentName };
       }
-      console.log("new doubt received:", doubt);
       this.toastrSvc.info(doubt.title, 'New doubt received');
       this.courseDoubts.unshift(doubt);
     });
@@ -76,7 +75,6 @@ export class DoubtComponent implements OnInit {
       }).sort((a:any,b:any)=>{
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       });
-      console.log("doubts:", this.courseDoubts);
     });
   }
 

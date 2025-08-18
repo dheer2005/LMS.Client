@@ -84,7 +84,7 @@ export class CourseOverviewComponent implements OnInit {
       }
     });
 
-    this.api.getQuizzesByCourse(this.courseId).subscribe((res: any) => {
+    this.api.getQuizzesByCourse(this.studentId!,this.courseId).subscribe((res: any) => {
       this.quizzes = res;
       console.log("quizzes", this.quizzes);
 

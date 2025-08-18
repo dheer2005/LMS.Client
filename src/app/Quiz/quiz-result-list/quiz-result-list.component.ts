@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/Services/api.service';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-quiz-result-list',
@@ -10,12 +11,13 @@ import { ApiService } from 'src/app/Services/api.service';
 export class QuizResultListComponent implements OnInit {
   courseId!: number;
   quizzes: any[] = [];
+  studentId = Number(this.authSvc.getId());
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) { }
+  constructor(private authSvc: AuthService ,private route: ActivatedRoute, private api: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.courseId = +this.route.snapshot.params['courseId'];
-    this.api.getQuizzesByCourse(this.courseId).subscribe((res: any) => {
+    this.api.getQuizzesByCourse(this.studentId ,this.courseId).subscribe((res: any) => {
       this.quizzes = res;
     });
   }

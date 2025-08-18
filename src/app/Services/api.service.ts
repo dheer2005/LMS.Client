@@ -64,8 +64,8 @@ export class ApiService {
     return this.http.post(`${this.ApiUrl}Quiz/add-question`, payload);
   }
 
-  getQuizzesByCourse(courseId: number) {
-    return this.http.get(`${this.ApiUrl}Quiz/course/${courseId}`);
+  getQuizzesByCourse(studentId: number,courseId: number) {
+    return this.http.get(`${this.ApiUrl}Quiz/course/${courseId}/${studentId}`);
   }
 
   getQuizDetails(quizId: number, userId: number) {
