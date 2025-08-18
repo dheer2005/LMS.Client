@@ -118,6 +118,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.ApiUrl}StudentProgress/progress/${studentId}`);
   }
 
+  getPasswordLength(){
+    return this.http.get(`${this.ApiUrl}Auth/getPasswordLength`);
+  }
+
   //email verification
   SendEmail(data:any){
     return this.http.post(`${this.ApiUrl}Auth/SendEmail`, data);
