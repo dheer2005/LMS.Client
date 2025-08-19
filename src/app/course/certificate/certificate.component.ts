@@ -30,7 +30,7 @@ export class CertificateComponent implements OnInit {
         console.log("generated certificate",this.certificate);
       }
     });
-    if(!this.certificate){
+    if(this.certificate == null){
       this.generate();
     }
   }
