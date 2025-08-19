@@ -28,21 +28,23 @@ export class CertificateComponent implements OnInit {
       next: (res:any)=>{
         this.certificate = res;
         console.log("generated certificate",this.certificate);
-      },
-      error: (err:any)=>{
-        console.log(err);
       }
-    })
+    });
+    if(!this.certificate){
+      this.generate();
+    }
   }
 
   generate() {
     this.certSvc.generate(this.userId, this.courseId).subscribe({
       next: (c) => {
          this.certificate = c; 
-         this.loading = false; 
-         console.log(" generate certificate",this.certificate);
+         this.loading = false;
         },
-      error: (e) => { this.error = e?.error ?? 'Failed to generate'; this.loading = false; }
+      error: (e) => { 
+        this.error = e?.error ?? 'Failed to generate'; 
+        this.loading = false;
+      }
     });
   }
 
