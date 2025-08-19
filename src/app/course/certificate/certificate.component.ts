@@ -58,12 +58,4 @@ export class CertificateComponent implements OnInit {
     });
   }
 
-  // get verifyUrl(): string {
-  //   return this.certificate
-  //     ? `https://localhost:7071/api/Certificate/verify/${this.certificate.certificateGuid}`
-  //     : '';
-  // }
-
-  
-
 }
