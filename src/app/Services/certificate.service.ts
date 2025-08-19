@@ -9,7 +9,7 @@ import { VerifyCertificateResponse } from 'src/Models/verifycertificateresponse.
 })
 export class CertificateService {
   // ApiUrl: string = 'https://localhost:7071/api/Certificate/';
-  ApiUrl: string = 'https://SmartLms.bsite.net/api/';
+  ApiUrl: string = 'https://SmartLms.bsite.net/api/Certificate';
 
   constructor(private http: HttpClient) { }
 
