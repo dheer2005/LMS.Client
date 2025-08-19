@@ -1,0 +1,32 @@
+<div class="certificate-container">
+  <div class="certificate-card">
+    <h2 class="title">🎓 Certificate Generator</h2>
+
+    <button class="btn-generate" (click)="generate()" [disabled]="loading">
+      {{ loading ? '⏳ Generating…' : 'Generate Certificate' }}
+    </button>
+
+    <div *ngIf="error" class="error-msg">❌ {{ error }}</div>
+
+    <div *ngIf="certificate" class="certificate-details">
+      <h3>✅ Certificate Generated</h3>
+      <p><strong>Certificate No:</strong> {{ certificate.certificateNumber }}</p>
+      <p><strong>Issued On:</strong> {{ certificate.issuedOn | date:'mediumDate' }}</p>
+      <p><strong>Student:</strong> {{ certificate.userFullName }}</p>
+      <p><strong>Course:</strong> {{ certificate.courseTitle }}</p>
+
+      <div class="actions">
+        <button class="btn-download" (click)="download()">⬇ Download PDF</button>
+        <a
+          class="btn-verify d-flex justify-content-center align-items-center"
+          [routerLink]="['/verify-certificate', certificate.certificateGuid]"
+          target="_blank"
+          rel="noopener"
+        >
+          🔍 Verify Online
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+

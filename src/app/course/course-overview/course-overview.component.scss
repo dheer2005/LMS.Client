@@ -13,7 +13,7 @@
 }
 
 .video-scroll-container {
-  max-height: 325px;
+  max-height: 480px;
   overflow-y: auto;
   scrollbar-width: thin;
   padding-right: 5px;
@@ -23,9 +23,6 @@
   background-color: #f8f9fa;
 }
 
-.doubts-scroll-container>p{
-  color: var(--text-color);
-}
 
 .doubts-scroll-container {
   max-height: 250px; 
@@ -45,4 +42,10 @@
 
 .doubts-scroll-container::-webkit-scrollbar-track {
   background: transparent;
+}
+
+.disabled-link{
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
 }

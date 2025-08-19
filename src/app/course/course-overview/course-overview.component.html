@@ -48,7 +48,7 @@
         <div class="mt-4 text-wrap" >
           <h5 class="fw-semibold"><i class="fas fa-align-left me-2"></i>Video Description</h5>
           <div style="width: 100%; overflow-wrap: break-word;">
-            <p class="text-muted " >{{ selectedVideo.description }}</p>
+            <p class="" >{{ selectedVideo.description }}</p>
           </div>
         </div>
 
@@ -92,7 +92,7 @@
 
       <div class="mt-4" *ngIf="!selectedVideo && course?.courseDescription">
         <h5 class="fw-semibold"><i class="fas fa-book-open me-2"></i> Course Description</h5>
-        <p class="text-muted">{{ course.courseDescription }}</p>
+        <p class="">{{ course.courseDescription }}</p>
       </div>
     </div>
 
@@ -101,14 +101,14 @@
         <div class="mb-4">
           <h5 class="fw-semibold"><i class="fas fa-vial me-2"></i> Quizzes</h5>
           <div *ngIf="quizzes.length > 0" class="list-group">
-            <a
+            <button
               *ngFor="let quiz of quizzes"
               class="list-group-item list-group-item-action quiz-item d-flex justify-content-between align-items-center"
-              [routerLink]="['/quiz-detail', quiz.id]"
+              [routerLink]="quiz.canAttempt - quiz.attemptCount > 0 ? ['/quiz-detail', quiz.id] : null"
             >
-              <div>
+              <div [class.disabled-link]="quiz.canAttempt - quiz.attemptCount <= 0">
                 <span class="fw-bold text-primary">{{ quiz.title }}</span>
-                <div *ngIf="userRole == 'Student' && quiz.attemptCount > 0 " class="small text-muted">
+                <div  *ngIf="userRole == 'Student' && quiz.attemptCount > 0 " class="small text-muted">
                   {{ quiz.canAttempt - quiz.attemptCount }} attempt(s) remaining
                 </div>
                 <div *ngIf="userRole == 'Student' && quiz.attemptCount === 0 " class="small text-muted">
@@ -116,7 +116,7 @@
                 </div>
               </div>
               <i class="fas fa-arrow-right text-secondary"></i>
-            </a>
+            </button>
           </div>
           <div *ngIf="quizzes.length === 0" class="alert alert-warning mt-2">
             No quizzes available yet.
@@ -136,7 +136,7 @@
         <input type="text" class="form-control mb-3" placeholder="🔍 Search videos..." [(ngModel)]="searchTerm" />
 
         <div class="video-scroll-container">
-          <div *ngFor="let video of filteredVideos" class="video-item card border-0 shadow-sm p-2 mb-3" (click)="playVideo(video)" >
+          <div *ngFor="let video of filteredVideos" class="video-item card border-0 shadow-sm p-2 mt-3" (click)="playVideo(video)" >
             <div class="fw-semibold text-primary mb-1">{{ video.title }}</div>
             <img [src]="video.thumbnailPath" class="img-fluid rounded" style="height: 180px; object-fit: cover;"
             />

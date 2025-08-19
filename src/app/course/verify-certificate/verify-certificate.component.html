@@ -1,0 +1,31 @@
+<div class="verify-container">
+  <div class="verify-card">
+    <h2 class="title">🔍 Verify Certificate</h2>
+
+    <div class="form-group">
+      <input
+        [(ngModel)]="guid"
+        placeholder="Enter Certificate GUID"
+        class="form-control"
+      />
+      <button
+        class="btn btn-primary verify-btn"
+        (click)="verify()"
+        [disabled]="!guid || loading"
+      >
+        Verify
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="loading">⏳ Checking…</div>
+    <div *ngIf="error" class="error-msg">❌ {{ error }}</div>
+
+    <div *ngIf="result" class="result-card">
+      <h3>✅ Certificate Verified</h3>
+      <p><strong>Certificate No:</strong> {{ result.certificateNumber }}</p>
+      <p><strong>Issued On:</strong> {{ result.issuedOn | date:'mediumDate' }}</p>
+      <p><strong>User:</strong> {{ result.user }}</p>
+      <p><strong>Course:</strong> {{ result.course }}</p>
+    </div>
+  </div>
+</div>

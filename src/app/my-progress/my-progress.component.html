@@ -35,7 +35,11 @@
             </div>
           </div>
 
-          <button class="mt-2 w-100 btn btn-outline-primary" [routerLink]="['/course-overview', progress.courseId]">
+          <button *ngIf="progress.completionPercentage == 100" class="mt-2 w-100 btn btn-outline-primary" [routerLink]="['/certificate', progress.courseId]">
+            Get your Certificate
+          </button>
+
+          <button *ngIf="progress.completionPercentage != 100" class="mt-2 w-100 btn btn-outline-primary" [routerLink]="['/course-overview', progress.courseId]">
             ▶️ Continue Learning
           </button>
         </div>

@@ -20,6 +20,8 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { DoubtComponent } from './course/doubt/doubt.component';
 import { QuizResultListComponent } from './Quiz/quiz-result-list/quiz-result-list.component';
 import { QuizResultDetailComponent } from './Quiz/quiz-result-detail/quiz-result-detail.component';
+import { CertificateComponent } from './course/certificate/certificate.component';
+import { VerifyCertificateComponent } from './course/verify-certificate/verify-certificate.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -41,6 +43,8 @@ const routes: Routes = [
   { path: 'doubts/:id', component: DoubtComponent},
   { path: 'quiz-results/:courseId', component: QuizResultListComponent},
   { path: 'quiz-result-detail/:quizId', component: QuizResultDetailComponent},
+  { path: 'certificate/:courseId', component: CertificateComponent},
+  { path: 'verify-certificate/:guid', component: VerifyCertificateComponent},
   { path: '**', component: PagenotfoundComponent }
 ];
 

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../Services/auth.service';
 import { ApiService } from '../Services/api.service';
 import { ToastrService } from 'ngx-toastr';
+import { Certificate } from 'src/Models/certificate.model';
+import { CertificateService } from '../Services/certificate.service';
 
 @Component({
   selector: 'app-my-progress',
@@ -12,7 +14,8 @@ export class MyProgressComponent implements OnInit {
   studentId?: number;
   progressData: any[] = [];
 
-  constructor(private authSvc: AuthService, private apiSvc: ApiService, private toastrSvc: ToastrService) {
+
+  constructor(private authSvc: AuthService, private apiSvc: ApiService, private toastrSvc: ToastrService, private certSvc: CertificateService) {
     this.studentId = Number(this.authSvc.getId());
   }
 
@@ -25,8 +28,11 @@ export class MyProgressComponent implements OnInit {
       error: (err:any)=>{
         this.toastrSvc.warning(err.error.message, 'Failed to fetch data');
       }
-    })
+    });
   }
+
+
+ 
 
 
 }

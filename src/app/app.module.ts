@@ -29,6 +29,8 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { DoubtComponent } from './course/doubt/doubt.component';
 import { QuizResultListComponent } from './Quiz/quiz-result-list/quiz-result-list.component';
 import { QuizResultDetailComponent } from './Quiz/quiz-result-detail/quiz-result-detail.component';
+import { CertificateComponent } from './course/certificate/certificate.component';
+import { VerifyCertificateComponent } from './course/verify-certificate/verify-certificate.component';
 
 export function tokenGetter() {
   return localStorage.getItem('Lms_token'); 
@@ -55,7 +57,9 @@ export function tokenGetter() {
     PagenotfoundComponent,
     DoubtComponent,
     QuizResultListComponent,
-    QuizResultDetailComponent
+    QuizResultDetailComponent,
+    CertificateComponent,
+    VerifyCertificateComponent
   ],
   imports: [
     RouterModule,
