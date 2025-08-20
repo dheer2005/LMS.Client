@@ -141,25 +141,18 @@ export class ManageUsersComponent implements OnInit {
 
       this.selectedThumbnailFile = file;
 
-      // show preview (local)
-      // this.signaturePreviewUrl && URL.revokeObjectURL(this.signaturePreviewUrl);
-      // this.signaturePreviewUrl = URL.createObjectURL(blob);
-
       // store the old URL before overwriting
       const oldUrl = this.signaturePreviewUrl as string;
 
       // create a new preview URL
       this.signaturePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-      console.log(this.signaturePreviewUrl);
 
       // cleanup old URL after reassigning
       if (oldUrl) {
         URL.revokeObjectURL(oldUrl);
       }
 
-      // close modal
       this.closeModal('signaturePadModal');
-      // Dubara register/edit modal open karo
       if (this.signaturePadOpenFor === 'register') {
         this.openModal('registerModal');
       } else if (this.signaturePadOpenFor === 'edit') {
@@ -185,8 +178,6 @@ export class ManageUsersComponent implements OnInit {
     const y = (ev.clientY - rect.top);
     return { x, y };
   }
-
-  // keep pointer events from scrolling on touch
   cancelTouchDefault(ev: Event) {
     ev.preventDefault();
   }
@@ -264,8 +255,10 @@ export class ManageUsersComponent implements OnInit {
           if(this.fileInputRef){
             this.fileInputRef.nativeElement.value = '';
           }
+          this.clearUploadedSignature();
         },
         error: (err:any) => {
+          this.clearUploadedSignature();
           this.toastrSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');
         }
       });
@@ -327,7 +320,6 @@ export class ManageUsersComponent implements OnInit {
     if (this.selectedThumbnailFile) {
       editFormData.append('signature', this.selectedThumbnailFile);
     }
-
     this.apiSvc.updateUser(this.selectedUserId, editFormData).subscribe({
       next: () => {
         this.toastrSvc.success('User updated successfully!', 'User');
@@ -335,10 +327,12 @@ export class ManageUsersComponent implements OnInit {
         if(this.fileInputRef){
           this.fileInputRef.nativeElement.value = '';
         }
+        this.clearUploadedSignature();
         this.loadUsers();
       },
       error: err => {
         this.toastrSvc.error(err.error.message,'Update');
+        this.clearUploadedSignature();
       }
     });
   }
@@ -369,6 +363,7 @@ export class ManageUsersComponent implements OnInit {
 
   cancelModal(){
     this.registerTeacherData = { fullName: '', email: '', password: '', role: this.registerRole, signature: '' };
+    this.clearUploadedSignature();
   }
 
 }

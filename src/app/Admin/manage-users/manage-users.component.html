@@ -93,7 +93,7 @@
     <div class="modal-content shadow-lg">
       <div class="modal-header bg-success text-white">
         <h5 class="modal-title" id="registerModalLabel">🎓 LMS Register</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelModal()"></button>
       </div>
       <div class="modal-body bg-light">
         <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
