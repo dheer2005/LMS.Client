@@ -28,7 +28,6 @@
                   <td class="text-center">{{ student.email }}</td>
                   <td class="text-center"><span class="badge bg-secondary">{{ student.role }}</span></td>
                   <td class="text-center">
-                    <!-- <button class="btn btn-sm btn-outline-info me-1" (click)="viewUser(student)">View</button> -->
                      <button class="btn btn-sm btn-outline-info me-1" #popoverRef data-bs-toggle="popover"    data-bs-trigger="focus" title="User Details" (click)="viewUser(student, popoverRef)">
                       <i class="fas fa-eye"></i> View
                       </button>
@@ -59,6 +58,7 @@
                   <th class="text-center">Full Name</th>
                   <th class="text-center">Email</th>
                   <th class="text-center">Role</th>
+                  <th class="text-center">Signature</th>
                   <th class="text-center">Actions</th>
                 </tr>
               </thead>
@@ -68,10 +68,15 @@
                   <td class="text-center">{{ teacher.fullName }}</td>
                   <td class="text-center">{{ teacher.email }}</td>
                   <td class="text-center"><span class="badge bg-info text-dark">{{ teacher.role }}</span></td>
+                  <td *ngIf="teacher.signature == ''" class="text-center text-muted " style="font-size: 10px;"> Not Uploaded</td>
+                  <td *ngIf="teacher.signature != ''" class="text-center text-muted " style="font-size: 10px;">
+                    <img *ngIf="teacher && teacher.signature" [src]="teacher.signature" alt="Signature" class="img-thumbnail mt-2" width="100">  
+                  </td>
                   <td class="text-center">
                     <button class="btn btn-sm btn-outline-info me-1" #popoverRef data-bs-toggle="popover"    data-bs-trigger="focus" title="User Details" (click)="viewUser(teacher, popoverRef)">
                       <i class="fas fa-eye"></i> View
-                      </button>
+                    </button>
+
                     <button class="btn btn-sm btn-outline-warning me-1" (click)="editUser(teacher)"><i class="fas fa-edit"></i> Edit</button>
                     <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(teacher.id)"><i class="fas fa-trash"></i> Delete</button>
                   </td>
@@ -82,6 +87,7 @@
     </div>
   </div>
 
+  <!-- register teacher modal -->
   <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg">
@@ -105,6 +111,25 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" [(ngModel)]="registerTeacherData.password" #password="ngModel" required minlength="6" class="form-control" id="password" placeholder="Create password" />
             <div *ngIf="password.invalid && password.touched" class="text-danger small mt-1">Password must be at least {{minPasswordLength}} characters.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Upload Signature</label>
+            <div class="d-flex justify-content-center align-items-center gap-3" *ngIf="!signaturePreviewUrl; else previewBlock">
+              <input type="file" class="form-control w-50 fs-6" (change)="onSignatureSelected($event)" accept="image/*" #fileInput />
+
+              <div class="fw-bold text-center">OR</div>
+
+              <button type="button" class="btn btn-outline-primary" (click)="openSignaturePad('register')">
+                Draw Signature
+              </button>
+            </div>
+
+            <ng-template #previewBlock>
+              <div class="d-flex justify-content-between align-items-center m-2">
+                <img [src]="signaturePreviewUrl" alt="Signature preview" width="180" class="border rounded mb-2">
+                <button type="button" class="btn btn-sm btn-danger" (click)="clearUploadedSignature()">Clear Signature</button>
+              </div>
+            </ng-template>
           </div>
           <div class="mb-3">
             <label for="role" class="form-label">Role</label>
@@ -135,12 +160,23 @@
                     <label class="form-label">Email</label>
                     <input [(ngModel)]="editUserData.email" name="email" class="form-control" required type="email" />
                 </div>
+                <div *ngIf="editUserData.role === 'Teacher'" class="mb-3">
+                  <label class="form-label">Signature</label>
+                  <div class="d-flex justify-content-between align-items-center m-2">
+                      <img *ngIf="editUserData.signature && !signaturePreviewUrl" [src]="editUserData.signature" alt="Logo" class="img-thumbnail mb-2" width="100">
+                      <img *ngIf="signaturePreviewUrl" [src]="signaturePreviewUrl" alt="Signature preview" width="180" class="border rounded mb-2">
+                      <button type="button" class="btn btn-outline-primary p-3" (click)="openSignaturePad('edit')">
+                      {{editUserData.signature == '' && !signaturePreviewUrl ? "Draw Signature" : "Edit Signature"}}
+                    </button>
+
+                  </div>
+
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Role</label>
                     <select disabled [(ngModel)]="editUserData.role" name="role" class="form-select" required>
                     <option value="Student">Student</option>
                     <option value="Teacher">Teacher</option>
-                    <option value="Admin">Admin</option>
                     </select>
                 </div>
                 </div>
@@ -152,6 +188,39 @@
             </div>
         </div>
     </div>
+
+    <!-- Signature Pad Modal -->
+    <div class="modal fade" id="signaturePadModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">Draw Signature</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" (click)="closeCanvasModalonCross()"></button>
+          </div>
+          <div class="modal-body">
+            <div class="border rounded p-2 bg-white">
+              <canvas
+                #signatureCanvas
+                class="signature-canvas w-100"
+                style="height:200px; touch-action: none; cursor: crosshair;"
+                (pointerdown)="startDraw($event)"
+                (pointermove)="draw($event)"
+                (pointerup)="endDraw()"
+                (pointerleave)="endDraw()"
+                (touchstart)="cancelTouchDefault($event)"
+                (touchmove)="cancelTouchDefault($event)"
+                (touchend)="cancelTouchDefault($event)">
+              </canvas>
+            </div>
+            <div class="d-flex justify-content-between mt-3">
+              <button type="button" class="btn btn-outline-secondary" (click)="clearSignature()">Clear</button>
+              <button type="button" class="btn btn-success" (click)="useSignature()">Use this signature</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>
 
     

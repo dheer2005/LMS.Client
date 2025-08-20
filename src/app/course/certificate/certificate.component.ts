@@ -41,8 +41,7 @@ export class CertificateComponent implements OnInit {
          this.certificate = c; 
          this.loading = false;
         },
-      error: (e) => { 
-        this.error = e?.error ?? 'Failed to generate'; 
+      error: (e) => {
         this.loading = false;
       }
     });
