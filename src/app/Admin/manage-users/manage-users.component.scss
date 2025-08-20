@@ -3,10 +3,12 @@
 }
 
 .card {
-  border-radius: 10px;
+  border-radius: 12px;
+  border: none;
 }
 
-.card-header h5 {
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
   font-weight: 600;
 }
 
@@ -14,21 +16,158 @@
 .table td {
   vertical-align: middle;
   font-size: 0.95rem;
+  padding: 0.75rem 0.5rem;
 }
 
 .table-responsive-scroll {
-  max-height: 230px;
+  max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.signature-preview-img {
+  max-width: 120px;
+  max-height: 60px;
+  object-fit: contain;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background: white;
 }
 
 .img-thumbnail{
   width: 100px;
   height: 50px;
+  object-fit: contain;
 }
 
 .signature-canvas {
-  border: 1px dashed #cbd5e1;
+  border: 2px dashed #cbd5e1;
   background: #fff;
-  border-radius: .5rem;
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.signature-canvas:hover {
+  border-color: #3b82f6;
+}
+
+.signature-canvas-container {
+  background: linear-gradient(45deg, #f8f9fa 25%, transparent 25%), 
+              linear-gradient(-45deg, #f8f9fa 25%, transparent 25%), 
+              linear-gradient(45deg, transparent 75%, #f8f9fa 75%), 
+              linear-gradient(-45deg, transparent 75%, #f8f9fa 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.signature-upload-container,
+.signature-edit-container {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.signature-preview-container {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.btn-group .btn {
+  border-radius: 0;
+}
+
+.btn-group .btn:first-child {
+  border-radius: 0.375rem 0 0 0.375rem;
+}
+
+.btn-group .btn:last-child {
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.badge {
+  font-size: 0.75em;
+  padding: 0.5em 0.75em;
+}
+
+.modal-content {
+  border-radius: 12px;
+  border: none;
+}
+
+.modal-header {
+  border-radius: 12px 12px 0 0;
+}
+
+.form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+}
+
+.is-invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .table-responsive-scroll {
+    font-size: 0.85rem;
+  }
+  
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .btn-group .btn {
+    border-radius: 0.375rem !important;
+    margin-bottom: 2px;
+  }
+  
+  .signature-upload-container .row {
+    text-align: center;
+  }
+  
+  .signature-upload-container .col-2 {
+    display: none;
+  }
+  
+  .signature-upload-container .col-5 {
+    flex: 0 0 auto;
+    width: 48%;
+  }
+}
+
+/* Accessibility improvements */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Animation for smooth transitions */
+.modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+  transform: translate(0, -50px);
+}
+
+.modal.show .modal-dialog {
+  transform: none;
+}
+
+/* Loading state improvements */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Table hover effects */
+.table-striped tbody tr:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  transition: background-color 0.2s ease;
 }

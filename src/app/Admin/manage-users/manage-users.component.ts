@@ -67,8 +67,10 @@ export class ManageUsersComponent implements OnInit {
     const cssWidth = canvas.clientWidth || 500;
     const cssHeight = 200;
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = Math.floor(cssWidth * dpr);
-    canvas.height = Math.floor(cssHeight * dpr);
+
+    canvas.width = cssWidth * dpr;
+    canvas.height = cssHeight * dpr;
+
     canvas.style.width = `${cssWidth}px`;
     canvas.style.height = `${cssHeight}px`;
 
@@ -76,7 +78,7 @@ export class ManageUsersComponent implements OnInit {
     if (!this.sigCtx) return;
 
     //scale to dpr
-    this.sigCtx.scale(dpr, dpr);
+    // this.sigCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     // white background
     this.sigCtx.fillStyle = '#ffffff';
@@ -174,10 +176,34 @@ export class ManageUsersComponent implements OnInit {
   private canvasPoint(ev: PointerEvent) {
     const canvas = this.signatureCanvasRef!.nativeElement;
     const rect = canvas.getBoundingClientRect();
-    const x = (ev.clientX - rect.left);
-    const y = (ev.clientY - rect.top);
+
+    const x = ev.clientX - rect.left;
+    const y = ev.clientY - rect.top;
+
     return { x, y };
   }
+
+  // private getCanvasCoordinates(event: MouseEvent | TouchEvent): { x: number, y: number } {
+  //   const canvas = this.signatureCanvasRef?.nativeElement;
+  //   if (!canvas) return { x: 0, y: 0 };
+
+  //   const rect = canvas.getBoundingClientRect();
+  //   let clientX = 0, clientY = 0;
+
+  //   if (event instanceof MouseEvent) {
+  //     clientX = event.clientX;
+  //     clientY = event.clientY;
+  //   } else if (event instanceof TouchEvent) {
+  //     clientX = event.touches[0].clientX;
+  //     clientY = event.touches[0].clientY;
+  //   }
+
+  //   return {
+  //     x: clientX - rect.left,
+  //     y: clientY - rect.top
+  //   };
+  // }
+
   cancelTouchDefault(ev: Event) {
     ev.preventDefault();
   }

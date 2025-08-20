@@ -1,226 +1,475 @@
 <div class="container mt-4">
   <!-- Header -->
   <div class="text-center mb-4">
-    <h2 class="fw-bold"><i class="fas fa-user-shield me-2 text-primary"></i> Admin Panel - Manage Users</h2>
+    <h2 class="fw-bold">
+      <i class="fas fa-user-shield me-2 text-primary"></i> 
+      Admin Panel - Manage Users
+    </h2>
   </div>
 
-  <!-- Student Section -->
-  <div class="card shadow mb-5">
+  <!-- Students Section -->
+  <div class="card shadow mb-5" *ngIf="students.length > 0">
     <div class="card-header bg-secondary text-white">
-      <h5 class="mb-0"><i class="fas fa-user-graduate me-2"></i> Students</h5>
+      <h5 class="mb-0">
+        <i class="fas fa-user-graduate me-2"></i> 
+        Students ({{ students.length }})
+      </h5>
     </div>
     <div class="card-body p-0">
-        <div class="table-responsive-scroll">
-            <table class="table table-striped mb-0">
-              <thead class="table-dark">
-                <tr>
-                  <th class="text-center">#</th>
-                  <th class="text-center">Full Name</th>
-                  <th class="text-center">Email</th>
-                  <th class="text-center">Role</th>
-                  <th class="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let student of students; let i = index">
-                  <td class="text-center">{{ i + 1 }}</td>
-                  <td class="text-center">{{ student.fullName }}</td>
-                  <td class="text-center">{{ student.email }}</td>
-                  <td class="text-center"><span class="badge bg-secondary">{{ student.role }}</span></td>
-                  <td class="text-center">
-                     <button class="btn btn-sm btn-outline-info me-1" #popoverRef data-bs-toggle="popover"    data-bs-trigger="focus" title="User Details" (click)="viewUser(student, popoverRef)">
-                      <i class="fas fa-eye"></i> View
-                      </button>
-                    <button class="btn btn-sm btn-outline-warning me-1" (click)="editUser(student)"><i class="fas fa-edit"></i> Edit</button>
-                    <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(student.id)"><i class="fas fa-trash"></i> Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table> 
-        </div>
+      <div class="table-responsive-scroll">
+        <table class="table table-striped mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">Full Name</th>
+              <th class="text-center">Email</th>
+              <th class="text-center">Role</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students; let i = index">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">{{ student.fullName }}</td>
+              <td class="text-center">{{ student.email }}</td>
+              <td class="text-center">
+                <span class="badge bg-secondary">{{ student.role }}</span>
+              </td>
+              <td class="text-center">
+                <div class="btn-group" role="group">
+                  <button 
+                    class="btn btn-sm btn-outline-info" 
+                    #popoverRef 
+                    data-bs-toggle="popover"    
+                    data-bs-trigger="focus" 
+                    title="User Details" 
+                    (click)="viewUser(student, popoverRef)"
+                    aria-label="View user details">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button 
+                    class="btn btn-sm btn-outline-warning" 
+                    (click)="editUser(student)"
+                    aria-label="Edit user">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button 
+                    class="btn btn-sm btn-outline-danger" 
+                    (click)="deleteUser(student.id)"
+                    aria-label="Delete user">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table> 
+      </div>
     </div>
   </div>
 
-  <!-- Teacher Section -->
+  <!-- Teachers Section -->
   <div class="card shadow mb-5">
     <div class="card-header bg-info text-white">
       <div class="d-flex justify-content-between align-items-center">
-        <h5 class="d-inline mb-0"><i class="fas fa-chalkboard-teacher me-2"></i> Teachers</h5>
-        <button class="ms-auto btn btn-outline-secondary text-white" data-bs-toggle="modal" data-bs-target="#registerModal"><i class="fas fa-user-plus me-1"></i> Add Teacher</button>
+        <h5 class="mb-0">
+          <i class="fas fa-chalkboard-teacher me-2"></i> 
+          Teachers ({{ teachers.length }})
+        </h5>
+        <button 
+          class="btn btn-outline-light" 
+          data-bs-toggle="modal" 
+          data-bs-target="#registerModal">
+          <i class="fas fa-user-plus me-1"></i> Add Teacher
+        </button>
       </div>
     </div>
     <div class="card-body p-0">
-        <div class="table-responsive-scroll">
-            <table class="table table-striped mb-0">
-              <thead class="table-dark">
-                <tr>
-                  <th class="text-center">#</th>
-                  <th class="text-center">Full Name</th>
-                  <th class="text-center">Email</th>
-                  <th class="text-center">Role</th>
-                  <th class="text-center">Signature</th>
-                  <th class="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let teacher of teachers; let i = index">
-                  <td class="text-center">{{ i + 1 }}</td>
-                  <td class="text-center">{{ teacher.fullName }}</td>
-                  <td class="text-center">{{ teacher.email }}</td>
-                  <td class="text-center"><span class="badge bg-info text-dark">{{ teacher.role }}</span></td>
-                  <td *ngIf="teacher.signature == ''" class="text-center text-muted " style="font-size: 10px;"> Not Uploaded</td>
-                  <td *ngIf="teacher.signature != ''" class="text-center text-muted " style="font-size: 10px;">
-                    <img *ngIf="teacher && teacher.signature" [src]="teacher.signature" alt="Signature" class="img-thumbnail mt-2" width="100">  
-                  </td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-outline-info me-1" #popoverRef data-bs-toggle="popover"    data-bs-trigger="focus" title="User Details" (click)="viewUser(teacher, popoverRef)">
-                      <i class="fas fa-eye"></i> View
-                    </button>
-
-                    <button class="btn btn-sm btn-outline-warning me-1" (click)="editUser(teacher)"><i class="fas fa-edit"></i> Edit</button>
-                    <button class="btn btn-sm btn-outline-danger" (click)="deleteUser(teacher.id)"><i class="fas fa-trash"></i> Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+      <div class="table-responsive-scroll" *ngIf="teachers.length > 0; else noTeachers">
+        <table class="table table-striped mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">Full Name</th>
+              <th class="text-center">Email</th>
+              <th class="text-center">Role</th>
+              <th class="text-center">Signature</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let teacher of teachers; let i = index">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td class="text-center">{{ teacher.fullName }}</td>
+              <td class="text-center">{{ teacher.email }}</td>
+              <td class="text-center">
+                <span class="badge bg-info text-dark">{{ teacher.role }}</span>
+              </td>
+              <td class="text-center">
+                <div *ngIf="!teacher.signature" class="text-muted small">
+                  Not Uploaded
+                </div>
+                <div *ngIf="teacher.signature">
+                  <img 
+                    [src]="teacher.signature" 
+                    alt="Teacher signature" 
+                    class="img-thumbnail signature-preview" 
+                    loading="lazy">  
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="btn-group" role="group">
+                  <button 
+                    class="btn btn-sm btn-outline-info" 
+                    #popoverRef 
+                    data-bs-toggle="popover"    
+                    data-bs-trigger="focus" 
+                    title="User Details" 
+                    (click)="viewUser(teacher, popoverRef)"
+                    aria-label="View user details">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button 
+                    class="btn btn-sm btn-outline-warning" 
+                    (click)="editUser(teacher)"
+                    aria-label="Edit user">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button 
+                    class="btn btn-sm btn-outline-danger" 
+                    (click)="deleteUser(teacher.id)"
+                    aria-label="Delete user">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noTeachers>
+        <div class="text-center py-4 text-muted">
+          <i class="fas fa-user-slash fa-3x mb-3"></i>
+          <p>No teachers found. Add your first teacher!</p>
         </div>
+      </ng-template>
     </div>
   </div>
 
-  <!-- register teacher modal -->
+  <!-- Register Teacher Modal -->
   <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow-lg">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title" id="registerModalLabel">🎓 LMS Register</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelModal()"></button>
-      </div>
-      <div class="modal-body bg-light">
-        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
-          <div class="mb-3">
-            <label for="name" class="form-label">Full Name</label>
-            <input type="text" name="name" [(ngModel)]="registerTeacherData.fullName" #name="ngModel" required class="form-control" id="name" placeholder="Enter your name" />
-            <div *ngIf="name.invalid && name.touched" class="text-danger small mt-1">Name is required.</div>
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" name="email" [(ngModel)]="registerTeacherData.email" #email="ngModel" required email class="form-control" id="email" placeholder="Enter your email" />
-            <div *ngIf="email.invalid && email.touched" class="text-danger small mt-1">Valid email is required.</div>
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" [(ngModel)]="registerTeacherData.password" #password="ngModel" required minlength="6" class="form-control" id="password" placeholder="Create password" />
-            <div *ngIf="password.invalid && password.touched" class="text-danger small mt-1">Password must be at least {{minPasswordLength}} characters.</div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Upload Signature</label>
-            <div class="d-flex justify-content-center align-items-center gap-3" *ngIf="!signaturePreviewUrl; else previewBlock">
-              <input type="file" class="form-control w-50 fs-6" (change)="onSignatureSelected($event)" accept="image/*" #fileInput />
-
-              <div class="fw-bold text-center">OR</div>
-
-              <button type="button" class="btn btn-outline-primary" (click)="openSignaturePad('register')">
-                Draw Signature
-              </button>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow-lg">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="registerModalLabel">
+            <i class="fas fa-user-plus me-2"></i>Register Teacher
+          </h5>
+          <button 
+            type="button" 
+            class="btn-close btn-close-white" 
+            data-bs-dismiss="modal" 
+            aria-label="Close" 
+            (click)="cancelModal()">
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+            <!-- Full Name -->
+            <div class="mb-3">
+              <label for="registerName" class="form-label">
+                Full Name <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="registerName"
+                name="name" 
+                [(ngModel)]="registerTeacherData.fullName" 
+                #name="ngModel" 
+                required 
+                class="form-control" 
+                placeholder="Enter full name"
+                [class.is-invalid]="name.invalid && name.touched" />
+              <div *ngIf="name.invalid && name.touched" class="invalid-feedback">
+                Full name is required.
+              </div>
             </div>
 
-            <ng-template #previewBlock>
-              <div class="d-flex justify-content-between align-items-center m-2">
-                <img [src]="signaturePreviewUrl" alt="Signature preview" width="180" class="border rounded mb-2">
-                <button type="button" class="btn btn-sm btn-danger" (click)="clearUploadedSignature()">Clear Signature</button>
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="registerEmail" class="form-label">
+                Email Address <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="email" 
+                id="registerEmail"
+                name="email" 
+                [(ngModel)]="registerTeacherData.email" 
+                #email="ngModel" 
+                required 
+                email 
+                class="form-control" 
+                placeholder="Enter email address"
+                [class.is-invalid]="email.invalid && email.touched" />
+              <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+                Please enter a valid email address.
               </div>
-            </ng-template>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="registerPassword" class="form-label">
+                Password <span class="text-danger">*</span>
+              </label>
+              <input 
+                type="password" 
+                id="registerPassword"
+                name="password" 
+                [(ngModel)]="registerTeacherData.password" 
+                #password="ngModel" 
+                required 
+                [minlength]="minPasswordLength" 
+                class="form-control" 
+                placeholder="Create password"
+                [class.is-invalid]="password.invalid && password.touched" />
+              <div *ngIf="password.invalid && password.touched" class="invalid-feedback">
+                Password must be at least {{ minPasswordLength }} characters.
+              </div>
+            </div>
+
+            <!-- Signature -->
+            <div class="mb-3">
+              <label class="form-label">Signature (Optional)</label>
+              <div *ngIf="!signaturePreviewUrl; else previewBlock" class="signature-upload-container">
+                <div class="row g-2 align-items-center">
+                  <div class="col-5">
+                    <input 
+                      type="file" 
+                      class="form-control form-control-sm" 
+                      (change)="onSignatureSelected($event)" 
+                      accept="image/*" 
+                      #fileInput />
+                  </div>
+                  <div class="col-2 text-center">
+                    <span class="text-muted small">OR</span>
+                  </div>
+                  <div class="col-5">
+                    <button 
+                      type="button" 
+                      class="btn btn-outline-primary btn-sm w-100" 
+                      (click)="openSignaturePad('register')">
+                      <i class="fas fa-pen me-1"></i>Draw
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #previewBlock>
+                <div class="signature-preview-container">
+                  <div class="d-flex justify-content-between align-items-center p-2 border rounded">
+                    <img 
+                      [src]="signaturePreviewUrl" 
+                      alt="Signature preview" 
+                      class="signature-preview-img">
+                    <button 
+                      type="button" 
+                      class="btn btn-sm btn-outline-danger" 
+                      (click)="clearUploadedSignature()">
+                      <i class="fas fa-times me-1"></i>Clear
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+
+            <!-- Role -->
+            <div class="mb-3">
+              <label for="registerRole" class="form-label">Role</label>
+              <input 
+                id="registerRole"
+                name="role" 
+                [value]="registerRole" 
+                readonly
+                class="form-control-plaintext fw-bold text-success">  
+            </div>
+
+            <!-- Submit Button -->
+            <button 
+              type="submit" 
+              class="btn btn-success w-100" 
+              [disabled]="registerForm.invalid"
+              data-bs-dismiss="modal">
+              <i class="fas fa-check me-2"></i>Register Teacher
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form (ngSubmit)="submitEditForm()">
+          <div class="modal-header bg-warning text-dark">
+            <h5 class="modal-title">
+              <i class="fas fa-edit me-2"></i>Edit User
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
-          <div class="mb-3">
-            <label for="role" class="form-label">Role</label>
-            <input name="role" [value]="registerRole" required class="form-control text-muted fw-bold" id="role" readonly>  
+          <div class="modal-body">
+            <!-- Full Name -->
+            <div class="mb-3">
+              <label class="form-label">
+                Full Name <span class="text-danger">*</span>
+              </label>
+              <input 
+                [(ngModel)]="editUserData.fullName" 
+                name="fullName" 
+                class="form-control" 
+                required />
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="form-label">
+                Email <span class="text-danger">*</span>
+              </label>
+              <input 
+                [(ngModel)]="editUserData.email" 
+                name="email" 
+                class="form-control" 
+                required 
+                type="email" />
+            </div>
+
+            <!-- Signature (Only for Teachers) -->
+            <div *ngIf="editUserData.role === 'Teacher'" class="mb-3">
+              <label class="form-label">Signature</label>
+              <div class="signature-edit-container">
+                <div class="d-flex justify-content-between align-items-center p-2 border rounded bg-light">
+                  <div class="signature-display">
+                    <img 
+                      *ngIf="editUserData.signature && !signaturePreviewUrl" 
+                      [src]="editUserData.signature" 
+                      alt="Current signature" 
+                      class="signature-preview-img">
+                    <img 
+                      *ngIf="signaturePreviewUrl" 
+                      [src]="signaturePreviewUrl" 
+                      alt="New signature preview" 
+                      class="signature-preview-img">
+                    <span 
+                      *ngIf="!editUserData.signature && !signaturePreviewUrl" 
+                      class="text-muted small">
+                      No signature uploaded
+                    </span>
+                  </div>
+                  <button 
+                    type="button" 
+                    class="btn btn-outline-primary btn-sm" 
+                    (click)="openSignaturePad('edit')">
+                    <i class="fas fa-pen me-1"></i>
+                    {{ (!editUserData.signature && !signaturePreviewUrl) ? 'Add' : 'Edit' }} Signature
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Role -->
+            <div class="mb-3">
+              <label class="form-label">Role</label>
+              <select 
+                disabled 
+                [(ngModel)]="editUserData.role" 
+                name="role" 
+                class="form-select" 
+                required>
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher</option>
+              </select>
+              <div class="form-text">Role cannot be changed after creation.</div>
+            </div>
           </div>
-          <button type="submit" class="btn btn-success w-100 mt-2" data-bs-dismiss="modal" [disabled]="registerForm.invalid">Register</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              <i class="fas fa-times me-1"></i>Cancel
+            </button>
+            <button 
+              class="btn btn-primary" 
+              type="submit">
+              <i class="fas fa-save me-1"></i>Save Changes
+            </button>
+          </div>
         </form>
       </div>
     </div>
   </div>
-</div>
 
-  <!-- Edit User Modal -->
-    <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            <form (ngSubmit)="submitEditForm()">
-                <div class="modal-header bg-warning text-dark">
-                <h5 class="modal-title">✏️ Edit User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Full Name</label>
-                    <input [(ngModel)]="editUserData.fullName" name="fullName" class="form-control" required />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input [(ngModel)]="editUserData.email" name="email" class="form-control" required type="email" />
-                </div>
-                <div *ngIf="editUserData.role === 'Teacher'" class="mb-3">
-                  <label class="form-label">Signature</label>
-                  <div class="d-flex justify-content-between align-items-center m-2">
-                      <img *ngIf="editUserData.signature && !signaturePreviewUrl" [src]="editUserData.signature" alt="Logo" class="img-thumbnail mb-2" width="100">
-                      <img *ngIf="signaturePreviewUrl" [src]="signaturePreviewUrl" alt="Signature preview" width="180" class="border rounded mb-2">
-                      <button type="button" class="btn btn-outline-primary p-3" (click)="openSignaturePad('edit')">
-                      {{editUserData.signature == '' && !signaturePreviewUrl ? "Draw Signature" : "Edit Signature"}}
-                    </button>
-
-                  </div>
-
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Role</label>
-                    <select disabled [(ngModel)]="editUserData.role" name="role" class="form-select" required>
-                    <option value="Student">Student</option>
-                    <option value="Teacher">Teacher</option>
-                    </select>
-                </div>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" type="submit">Save Changes</button>
-                </div>
-            </form>
-            </div>
+  <!-- Signature Pad Modal -->
+  <div class="modal fade" id="signaturePadModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">
+            <i class="fas fa-signature me-2"></i>Draw Your Signature
+          </h5>
+          <button 
+            type="button" 
+            class="btn-close btn-close-white" 
+            data-bs-dismiss="modal" 
+            (click)="closeCanvasModalonCross()"
+            aria-label="Close">
+          </button>
         </div>
-    </div>
-
-    <!-- Signature Pad Modal -->
-    <div class="modal fade" id="signaturePadModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title">Draw Signature</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" (click)="closeCanvasModalonCross()"></button>
+        <div class="modal-body">
+          <div class="text-center mb-3">
+            <small class="text-muted">
+              <i class="fas fa-info-circle me-1"></i>
+              Draw your signature in the box below using your mouse or touch device
+            </small>
           </div>
-          <div class="modal-body">
-            <div class="border rounded p-2 bg-white">
-              <canvas
-                #signatureCanvas
-                class="signature-canvas w-100"
-                style="height:200px; touch-action: none; cursor: crosshair;"
-                (pointerdown)="startDraw($event)"
-                (pointermove)="draw($event)"
-                (pointerup)="endDraw()"
-                (pointerleave)="endDraw()"
-                (touchstart)="cancelTouchDefault($event)"
-                (touchmove)="cancelTouchDefault($event)"
-                (touchend)="cancelTouchDefault($event)">
-              </canvas>
-            </div>
-            <div class="d-flex justify-content-between mt-3">
-              <button type="button" class="btn btn-outline-secondary" (click)="clearSignature()">Clear</button>
-              <button type="button" class="btn btn-success" (click)="useSignature()">Use this signature</button>
-            </div>
+          
+          <div class="signature-canvas-container border rounded p-2 bg-white">
+            <canvas
+              #signatureCanvas
+              class="signature-canvas w-100"
+              style="height:200px; touch-action: none; cursor: crosshair;"
+              (pointerdown)="startDraw($event)"
+              (pointermove)="draw($event)"
+              (pointerup)="endDraw()"
+              (pointerleave)="endDraw()"
+              (touchstart)="cancelTouchDefault($event)"
+              (touchmove)="cancelTouchDefault($event)"
+              (touchend)="cancelTouchDefault($event)"
+              aria-label="Signature drawing canvas">
+            </canvas>
+          </div>
+          
+          <div class="d-flex justify-content-between mt-3">
+            <button 
+              type="button" 
+              class="btn btn-outline-secondary" 
+              (click)="clearSignature()">
+              <i class="fas fa-eraser me-1"></i>Clear
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-success" 
+              (click)="useSignature()">
+              <i class="fas fa-check me-1"></i>Use This Signature
+            </button>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
+  <!-- Loading Spinner -->
+  <div *ngIf="users.length === 0 && students.length === 0 && teachers.length === 0" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2 text-muted">Loading users...</p>
+  </div>
 </div>
-
-    
