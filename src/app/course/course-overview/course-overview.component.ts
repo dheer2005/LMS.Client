@@ -38,12 +38,10 @@ export class CourseOverviewComponent implements OnInit {
     this.doubtService.onReplyReceived().subscribe(reply => {
       const doubt = this.doubts.find(d => d.id === reply.doubtId);
       if (doubt) {
-        // console.log("doubt replies:", doubt);
         if (!doubt.replies) {
           doubt.replies = [];
         }
 
-        // Push reply with teacher object so template can show fullName
         doubt.replies.push({
           replyText: reply.replyText,
           teacher: {
@@ -69,7 +67,6 @@ export class CourseOverviewComponent implements OnInit {
       this.course = res;
       this.videos = res.videos;
 
-      //Restore last selected video if still exists in this course
       const saved = localStorage.getItem('selectedVideo');
       if(saved){
         const parsed = JSON.parse(saved);
@@ -157,7 +154,6 @@ export class CourseOverviewComponent implements OnInit {
 
     this.api.trackVideoWatch(payload).subscribe({
       next: (res:any)=>{
-        // this.toastrSvc.success(res.message);
       },
       error: (err:any)=>{
         this.toastrSvc.warning('Failed to track video watch', err);

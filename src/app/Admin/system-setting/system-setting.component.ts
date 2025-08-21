@@ -35,7 +35,6 @@ export class SystemSettingComponent implements OnInit {
     this.settingSvc.setting$.subscribe(s => {
       if (s) {
         this.setting = s;
-        // console.log("settings response:", this.setting);
         this.form.patchValue({
           platformName: s.platformName,
           maxVideoUploadSizeMB: s.maxVideoUploadSizeMB,

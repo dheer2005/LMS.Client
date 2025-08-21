@@ -24,7 +24,7 @@ export class ManageUsersComponent implements OnInit {
 
   selectedThumbnailFile: File | null = null;
   signaturePreviewUrl: SafeUrl | null = null; 
-  strokes: { x: number, y: number }[][] = [];  // array of strokes (each stroke is an array of points)
+  strokes: { x: number, y: number }[][] = [];
   currentStroke: { x: number, y: number }[] = [];
 
   users: any[] = [];
@@ -63,7 +63,6 @@ export class ManageUsersComponent implements OnInit {
     const canvas = this.signatureCanvasRef?.nativeElement;
     if (!canvas) return;
 
-    // size canvas to CSS size & device pixel ratio for sharpness
     const cssWidth = canvas.clientWidth || 500;
     const cssHeight = 200;
     const dpr = window.devicePixelRatio || 1;
@@ -77,14 +76,9 @@ export class ManageUsersComponent implements OnInit {
     this.sigCtx = canvas.getContext('2d');
     if (!this.sigCtx) return;
 
-    //scale to dpr
-    // this.sigCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    // white background
     this.sigCtx.fillStyle = '#ffffff';
     this.sigCtx.fillRect(0, 0, cssWidth, cssHeight);
 
-    // pen style
     this.sigCtx.strokeStyle = '#000000';
     this.sigCtx.lineWidth = 2;
     this.sigCtx.lineCap = 'round';
@@ -107,7 +101,7 @@ export class ManageUsersComponent implements OnInit {
     this.sigCtx.beginPath();   
     this.sigCtx.moveTo(this.lastX, this.lastY);
 
-    this.sigCtx.lineTo(x, y);
+    this.sigCtx.lineTo(x,y);
     this.sigCtx.stroke();
     this.lastX = x; this.lastY = y;
   }
@@ -120,7 +114,6 @@ export class ManageUsersComponent implements OnInit {
     const canvas = this.signatureCanvasRef?.nativeElement;
     if (!canvas || !this.sigCtx) return;
     this.sigCtx.clearRect(0, 0, canvas.width, canvas.height);
-    // re-fill white background
     this.sigCtx.fillStyle = '#ffffff';
     this.sigCtx.fillRect(0, 0, canvas.width, canvas.height);
   }
@@ -143,13 +136,10 @@ export class ManageUsersComponent implements OnInit {
 
       this.selectedThumbnailFile = file;
 
-      // store the old URL before overwriting
       const oldUrl = this.signaturePreviewUrl as string;
 
-      // create a new preview URL
       this.signaturePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
 
-      // cleanup old URL after reassigning
       if (oldUrl) {
         URL.revokeObjectURL(oldUrl);
       }
@@ -176,33 +166,13 @@ export class ManageUsersComponent implements OnInit {
   private canvasPoint(ev: PointerEvent) {
     const canvas = this.signatureCanvasRef!.nativeElement;
     const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
 
-    const x = ev.clientX - rect.left;
-    const y = ev.clientY - rect.top;
+    const x = (ev.clientX - rect.left) * dpr;
+    const y = (ev.clientY - rect.top) * dpr;
 
     return { x, y };
   }
-
-  // private getCanvasCoordinates(event: MouseEvent | TouchEvent): { x: number, y: number } {
-  //   const canvas = this.signatureCanvasRef?.nativeElement;
-  //   if (!canvas) return { x: 0, y: 0 };
-
-  //   const rect = canvas.getBoundingClientRect();
-  //   let clientX = 0, clientY = 0;
-
-  //   if (event instanceof MouseEvent) {
-  //     clientX = event.clientX;
-  //     clientY = event.clientY;
-  //   } else if (event instanceof TouchEvent) {
-  //     clientX = event.touches[0].clientX;
-  //     clientY = event.touches[0].clientY;
-  //   }
-
-  //   return {
-  //     x: clientX - rect.left,
-  //     y: clientY - rect.top
-  //   };
-  // }
 
   cancelTouchDefault(ev: Event) {
     ev.preventDefault();
@@ -373,7 +343,7 @@ export class ManageUsersComponent implements OnInit {
           this.toastrSvc.success('User deleted successfully.');
         },
         error: err => {
-          this.toastrSvc.error('Error deleting user', err);
+          this.toastrSvc.error('Error deleting user', err.error.message);
         }
       });
     }

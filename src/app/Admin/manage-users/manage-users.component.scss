@@ -142,7 +142,6 @@
   }
 }
 
-/* Accessibility improvements */
 .btn:focus,
 .form-control:focus,
 .form-select:focus {
@@ -150,7 +149,6 @@
   outline-offset: 2px;
 }
 
-/* Animation for smooth transitions */
 .modal.fade .modal-dialog {
   transition: transform 0.3s ease-out;
   transform: translate(0, -50px);
@@ -160,13 +158,11 @@
   transform: none;
 }
 
-/* Loading state improvements */
 .spinner-border {
   width: 3rem;
   height: 3rem;
 }
 
-/* Table hover effects */
 .table-striped tbody tr:hover {
   background-color: rgba(59, 130, 246, 0.1);
   transition: background-color 0.2s ease;

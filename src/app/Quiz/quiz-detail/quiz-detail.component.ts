@@ -81,9 +81,7 @@ export class QuizDetailComponent implements OnInit {
           AttemptNumber: 1
         }
 
-        this.api.quizSubmission(quizSubmissionDto).subscribe((res:any)=>{
-          // console.log(res);
-        });
+        this.api.quizSubmission(quizSubmissionDto).subscribe((res:any)=>{});
 
         this.toastrSvc.success('Quiz submitted successfully!', 'Success');
       },

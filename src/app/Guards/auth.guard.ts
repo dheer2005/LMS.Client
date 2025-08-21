@@ -14,7 +14,6 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       this.role = this.auth.getRole();
-      // console.log(route.routeConfig?.path)
       if(this.role == 'Admin' && (
         (route.routeConfig?.path === "create-course") ||
         (route.routeConfig?.path === "my-courses") ||
@@ -25,9 +24,7 @@ export class AuthGuard implements CanActivate {
         (route.routeConfig?.path === "quiz-detail/:id") ||
         (route.routeConfig?.path === "add-question/:quizId") ||
         (route.routeConfig?.path === "my-progress") ||
-        (route.routeConfig?.path === "verify") || 
-        (route.routeConfig?.path === "login") || 
-        (route.routeConfig?.path === "register")
+        (route.routeConfig?.path === "verify") 
       )){
         this.router.navigateByUrl('dashboard');
         return false;
@@ -38,9 +35,7 @@ export class AuthGuard implements CanActivate {
         (route.routeConfig?.path === "add-quiz/:id") ||
         (route.routeConfig?.path === "manage-users") ||
         (route.routeConfig?.path === "add-question/:quizId") ||
-        (route.routeConfig?.path === "settings")|| 
-        (route.routeConfig?.path === "login") || 
-        (route.routeConfig?.path === "register")
+        (route.routeConfig?.path === "settings")
       )){
         this.router.navigateByUrl('dashboard');
         return false;
@@ -48,9 +43,7 @@ export class AuthGuard implements CanActivate {
         (route.routeConfig?.path === "manage-users") ||
         (route.routeConfig?.path === "settings") ||
         (route.routeConfig?.path === "view-courses") ||
-        (route.routeConfig?.path === "my-progress") || 
-        (route.routeConfig?.path === "login") || 
-        (route.routeConfig?.path === "register")
+        (route.routeConfig?.path === "my-progress")
       )){
         this.router.navigateByUrl('dashboard');
         return false;

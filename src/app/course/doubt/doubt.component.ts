@@ -33,7 +33,6 @@ export class DoubtComponent implements OnInit {
       this.courseDoubts.unshift(doubt);
     });
 
-    // Load existing doubts for course
     this.loadCourseDoubts(this.courseId);
   }
 

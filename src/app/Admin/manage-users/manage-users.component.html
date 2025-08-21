@@ -174,7 +174,6 @@
         </div>
         <div class="modal-body">
           <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
-            <!-- Full Name -->
             <div class="mb-3">
               <label for="registerName" class="form-label">
                 Full Name <span class="text-danger">*</span>
@@ -194,7 +193,6 @@
               </div>
             </div>
 
-            <!-- Email -->
             <div class="mb-3">
               <label for="registerEmail" class="form-label">
                 Email Address <span class="text-danger">*</span>
@@ -215,7 +213,6 @@
               </div>
             </div>
 
-            <!-- Password -->
             <div class="mb-3">
               <label for="registerPassword" class="form-label">
                 Password <span class="text-danger">*</span>
@@ -236,7 +233,6 @@
               </div>
             </div>
 
-            <!-- Signature -->
             <div class="mb-3">
               <label class="form-label">Signature (Optional)</label>
               <div *ngIf="!signaturePreviewUrl; else previewBlock" class="signature-upload-container">
@@ -281,7 +277,6 @@
               </ng-template>
             </div>
 
-            <!-- Role -->
             <div class="mb-3">
               <label for="registerRole" class="form-label">Role</label>
               <input 
@@ -292,7 +287,6 @@
                 class="form-control-plaintext fw-bold text-success">  
             </div>
 
-            <!-- Submit Button -->
             <button 
               type="submit" 
               class="btn btn-success w-100" 
@@ -306,7 +300,6 @@
     </div>
   </div>
 
-  <!-- Edit User Modal -->
   <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -315,10 +308,9 @@
             <h5 class="modal-title">
               <i class="fas fa-edit me-2"></i>Edit User
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="clearUploadedSignature()"></button>
           </div>
           <div class="modal-body">
-            <!-- Full Name -->
             <div class="mb-3">
               <label class="form-label">
                 Full Name <span class="text-danger">*</span>
@@ -330,7 +322,6 @@
                 required />
             </div>
 
-            <!-- Email -->
             <div class="mb-3">
               <label class="form-label">
                 Email <span class="text-danger">*</span>
@@ -343,7 +334,6 @@
                 type="email" />
             </div>
 
-            <!-- Signature (Only for Teachers) -->
             <div *ngIf="editUserData.role === 'Teacher'" class="mb-3">
               <label class="form-label">Signature</label>
               <div class="signature-edit-container">
@@ -376,7 +366,6 @@
               </div>
             </div>
 
-            <!-- Role -->
             <div class="mb-3">
               <label class="form-label">Role</label>
               <select 
@@ -406,7 +395,6 @@
     </div>
   </div>
 
-  <!-- Signature Pad Modal -->
   <div class="modal fade" id="signaturePadModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
@@ -465,7 +453,6 @@
     </div>
   </div>
 
-  <!-- Loading Spinner -->
   <div *ngIf="users.length === 0 && students.length === 0 && teachers.length === 0" class="text-center py-5">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
