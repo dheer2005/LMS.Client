@@ -76,8 +76,10 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
         allowedDomains: ['localhost:7071'],
         disallowedRoutes: [
-          'http://localhost:7071/api/auth/login',
-          'http://localhost:7071/api/auth/register',
+          // 'http://localhost:7071/api/auth/login',
+          // 'http://localhost:7071/api/auth/register',
+          'https://SmartLms.bsite.net/api/auth/login',
+          'https://SmartLms.bsite.net/api/auth/register'
         ]
       }
     })

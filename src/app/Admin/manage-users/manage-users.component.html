@@ -382,7 +382,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-              <i class="fas fa-times me-1"></i>Cancel
+              <i class="fas fa-times me-1" (click)="clearUploadedSignature()"></i>Cancel
             </button>
             <button 
               class="btn btn-primary" 
@@ -419,7 +419,7 @@
           </div>
           
           <div class="signature-canvas-container border rounded p-2 bg-white">
-            <canvas
+            <!-- <canvas
               #signatureCanvas
               class="signature-canvas w-100"
               style="height:200px; touch-action: none; cursor: crosshair;"
@@ -431,6 +431,13 @@
               (touchmove)="cancelTouchDefault($event)"
               (touchend)="cancelTouchDefault($event)"
               aria-label="Signature drawing canvas">
+            </canvas> -->
+
+            <canvas
+              #signatureCanvas
+              class="w-100"
+              style="height:200px; touch-action: none; cursor: crosshair;"
+              aria-label="Signature drawing canvas">
             </canvas>
           </div>
           
@@ -438,7 +445,7 @@
             <button 
               type="button" 
               class="btn btn-outline-secondary" 
-              (click)="clearSignature()">
+              (click)="clearPad()">
               <i class="fas fa-eraser me-1"></i>Clear
             </button>
             <button 
@@ -447,6 +454,18 @@
               (click)="useSignature()">
               <i class="fas fa-check me-1"></i>Use This Signature
             </button>
+            <!-- <button 
+              type="button" 
+              class="btn btn-outline-secondary" 
+              (click)="clearPad()">
+              <i class="fas fa-eraser me-1"></i>Clear
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-success" 
+              (click)="savePad()">
+              <i class="fas fa-check me-1"></i>Use This Signature
+            </button> -->
           </div>
         </div>
       </div>

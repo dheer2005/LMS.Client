@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
 import { ElementRef, ViewChild } from '@angular/core';
@@ -6,26 +6,33 @@ import { Popover } from 'bootstrap';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import SignaturePad from 'signature_pad';
 
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.scss']
 })
-export class ManageUsersComponent implements OnInit {
+export class ManageUsersComponent implements OnInit, AfterViewInit {
+  // signatureNeeded!: boolean;
+  // @ViewChild('canvas') canvasEl!: ElementRef;
+  // signatureImg!: string;
+  
+  
   @ViewChild('fileInput') fileInputRef!: ElementRef;
-
+  
   @ViewChild('signatureCanvas') signatureCanvasRef?: ElementRef<HTMLCanvasElement>;
-  private sigCtx?: CanvasRenderingContext2D | null;
+  signaturePad!: SignaturePad;
+  // private sigCtx?: CanvasRenderingContext2D | null;
   isDrawing = false;
-  private lastX = 0;
-  private lastY = 0;
+  // private lastX = 0;
+  // private lastY = 0;
   signaturePadOpenFor: 'register' | 'edit' | null = null;
 
   selectedThumbnailFile: File | null = null;
   signaturePreviewUrl: SafeUrl | null = null; 
-  strokes: { x: number, y: number }[][] = [];
-  currentStroke: { x: number, y: number }[] = [];
+  // strokes: { x: number, y: number }[][] = [];
+  // currentStroke: { x: number, y: number }[] = [];
 
   users: any[] = [];
   students: any[] = [];
@@ -33,10 +40,11 @@ export class ManageUsersComponent implements OnInit {
   registerRole: string = 'Teacher';
   selectedUserId: number | null = null;
   requireEmailVerification?: boolean;
+  minPasswordLength:any;
+
   registerTeacherData = { fullName: '', email: '', password: '', role: this.registerRole, signature: '' };
   editUserData = { fullName: '', email: '', role: '', signature: '' };
   email = { emailTo: '', subject: '', body: '', userName:'' }
-  minPasswordLength:any;
 
   constructor(private apiSvc: ApiService, private toastrSvc: ToastrService, private router: Router, private sanitizer: DomSanitizer) {
     this.apiSvc.getPasswordLength().subscribe({
@@ -45,77 +53,45 @@ export class ManageUsersComponent implements OnInit {
       }
     });
   }
+  
+  ngAfterViewInit(): void {
+    if (this.signatureCanvasRef) {
+      this.signaturePad = new SignaturePad(this.signatureCanvasRef.nativeElement, {
+        backgroundColor: '#ffffff',
+        penColor: 'black',
+        minWidth: 1.5,
+        maxWidth: 2
+      });
+      this.resizeCanvas();
+    }
+  }
+
+  private resizeCanvas() {
+    const canvas = this.signatureCanvasRef!.nativeElement;
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext('2d')?.scale(ratio, ratio);
+    this.signaturePad.clear();
+  }
+
+  clearPad() {
+    this.signaturePad.clear();
+  }
 
   ngOnInit(): void {
     this.loadUsers();
   }
 
-  openSignaturePad(forForm: 'register' | 'edit'){
+  openSignaturePad(forForm: 'register' | 'edit') {
     this.signaturePadOpenFor = forForm;
     this.closeModal(forForm === 'register' ? 'registerModal' : 'editUserModal');
-
     this.openModal('signaturePadModal');
-    setTimeout(() => this.initSignatureCanvas(), 0);
-  }
-
-  private initSignatureCanvas() 
-  {
-    const canvas = this.signatureCanvasRef?.nativeElement;
-    if (!canvas) return;
-
-    const cssWidth = canvas.clientWidth || 500;
-    const cssHeight = 200;
-    const dpr = window.devicePixelRatio || 1;
-
-    canvas.width = cssWidth * dpr;
-    canvas.height = cssHeight * dpr;
-
-    canvas.style.width = `${cssWidth}px`;
-    canvas.style.height = `${cssHeight}px`;
-
-    this.sigCtx = canvas.getContext('2d');
-    if (!this.sigCtx) return;
-
-    this.sigCtx.fillStyle = '#ffffff';
-    this.sigCtx.fillRect(0, 0, cssWidth, cssHeight);
-
-    this.sigCtx.strokeStyle = '#000000';
-    this.sigCtx.lineWidth = 2;
-    this.sigCtx.lineCap = 'round';
-    this.sigCtx.lineJoin = 'round';
-  }
-
-
-  startDraw(ev: PointerEvent) {
-    if (!this.sigCtx || !this.signatureCanvasRef) return;
-    const { x, y } = this.canvasPoint(ev);
-    this.isDrawing = true;
-    this.lastX = x; this.lastY = y;
-    this.sigCtx.beginPath();
-    this.sigCtx.moveTo(x, y);
-  }
-
-  draw(ev: PointerEvent) {
-    if (!this.sigCtx || !this.isDrawing) return;
-    const { x, y } = this.canvasPoint(ev);
-    this.sigCtx.beginPath();   
-    this.sigCtx.moveTo(this.lastX, this.lastY);
-
-    this.sigCtx.lineTo(x,y);
-    this.sigCtx.stroke();
-    this.lastX = x; this.lastY = y;
+    setTimeout(() => this.resizeCanvas(), 200);
   }
 
   endDraw() {
     this.isDrawing = false;
-  }
-
-  clearSignature() {
-    const canvas = this.signatureCanvasRef?.nativeElement;
-    if (!canvas || !this.sigCtx) return;
-    this.sigCtx.clearRect(0, 0, canvas.width, canvas.height);
-    this.sigCtx.fillStyle = '#ffffff';
-    this.sigCtx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
   clearUploadedSignature() {
@@ -127,34 +103,44 @@ export class ManageUsersComponent implements OnInit {
   }
 
   useSignature() {
-    const canvas = this.signatureCanvasRef?.nativeElement;
-    if (!canvas) return;
+    if (this.signaturePad.isEmpty()) {
+      this.toastrSvc.warning('Please provide a signature first');
+      return;
+    }
 
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-      const file = new File([blob], 'signature.png', { type: 'image/png' });
+    const dataUrl = this.signaturePad.toDataURL('image/png');
 
-      this.selectedThumbnailFile = file;
+    fetch(dataUrl)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], 'signature.png', { type: 'image/png' });
+        this.selectedThumbnailFile = file;
 
-      const oldUrl = this.signaturePreviewUrl as string;
+        const oldUrl = this.signaturePreviewUrl as string;
+        this.signaturePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
 
-      this.signaturePreviewUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+        if (oldUrl) URL.revokeObjectURL(oldUrl);
 
-      if (oldUrl) {
-        URL.revokeObjectURL(oldUrl);
-      }
-
-      this.closeModal('signaturePadModal');
-      if (this.signaturePadOpenFor === 'register') {
-        this.openModal('registerModal');
-      } else if (this.signaturePadOpenFor === 'edit') {
-        this.openModal('editUserModal');
-      }
-      this.toastrSvc.success('Signature captured', 'Signature');
-    }, 'image/png');
+        this.closeModal('signaturePadModal');
+        if (this.signaturePadOpenFor === 'register') {
+          this.openModal('registerModal');
+        } else if (this.signaturePadOpenFor === 'edit') {
+          this.openModal('editUserModal');
+        }
+        this.toastrSvc.success('Signature captured', 'Signature');
+      });
   }
 
-  closeCanvasModalonCross(){
+  // closeCanvasModalonCross(){
+  //   this.closeModal('signaturePadModal');
+  //   if (this.signaturePadOpenFor === 'register') {
+  //     this.openModal('registerModal');
+  //   } else if (this.signaturePadOpenFor === 'edit') {
+  //     this.openModal('editUserModal');
+  //   }
+  // }
+
+  closeCanvasModalonCross() {
     this.closeModal('signaturePadModal');
     if (this.signaturePadOpenFor === 'register') {
       this.openModal('registerModal');
@@ -167,9 +153,9 @@ export class ManageUsersComponent implements OnInit {
     const canvas = this.signatureCanvasRef!.nativeElement;
     const rect = canvas.getBoundingClientRect();
     const dpr = window.devicePixelRatio || 1;
-
-    const x = (ev.clientX - rect.left) * dpr;
-    const y = (ev.clientY - rect.top) * dpr;
+    
+    const x = (ev.clientX  - rect.left);
+    const y = (ev.clientY  - rect.top);
 
     return { x, y };
   }
