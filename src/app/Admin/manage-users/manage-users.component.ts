@@ -16,7 +16,7 @@ import SignaturePad from 'signature_pad';
 export class ManageUsersComponent implements OnInit, AfterViewInit {
   @ViewChild('fileInput') fileInputRef!: ElementRef;
   @ViewChild('signatureCanvas') signatureCanvasRef?: ElementRef<HTMLCanvasElement>;
-  
+
   signaturePad!: SignaturePad;
   isDrawing = false;
   signaturePadOpenFor: 'register' | 'edit' | null = null;
@@ -202,6 +202,7 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
           if(this.fileInputRef){
             this.fileInputRef.nativeElement.value = '';
           }
+          form.resetForm();
           this.clearUploadedSignature();
         },
         error: (err:any) => {
