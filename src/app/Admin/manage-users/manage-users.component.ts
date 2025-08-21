@@ -14,25 +14,15 @@ import SignaturePad from 'signature_pad';
   styleUrls: ['./manage-users.component.scss']
 })
 export class ManageUsersComponent implements OnInit, AfterViewInit {
-  // signatureNeeded!: boolean;
-  // @ViewChild('canvas') canvasEl!: ElementRef;
-  // signatureImg!: string;
-  
-  
   @ViewChild('fileInput') fileInputRef!: ElementRef;
-  
   @ViewChild('signatureCanvas') signatureCanvasRef?: ElementRef<HTMLCanvasElement>;
+  
   signaturePad!: SignaturePad;
-  // private sigCtx?: CanvasRenderingContext2D | null;
   isDrawing = false;
-  // private lastX = 0;
-  // private lastY = 0;
   signaturePadOpenFor: 'register' | 'edit' | null = null;
 
   selectedThumbnailFile: File | null = null;
   signaturePreviewUrl: SafeUrl | null = null; 
-  // strokes: { x: number, y: number }[][] = [];
-  // currentStroke: { x: number, y: number }[] = [];
 
   users: any[] = [];
   students: any[] = [];
@@ -131,15 +121,6 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       });
   }
 
-  // closeCanvasModalonCross(){
-  //   this.closeModal('signaturePadModal');
-  //   if (this.signaturePadOpenFor === 'register') {
-  //     this.openModal('registerModal');
-  //   } else if (this.signaturePadOpenFor === 'edit') {
-  //     this.openModal('editUserModal');
-  //   }
-  // }
-
   closeCanvasModalonCross() {
     this.closeModal('signaturePadModal');
     if (this.signaturePadOpenFor === 'register') {
@@ -148,22 +129,6 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       this.openModal('editUserModal');
     }
   }
-
-  private canvasPoint(ev: PointerEvent) {
-    const canvas = this.signatureCanvasRef!.nativeElement;
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    
-    const x = (ev.clientX  - rect.left);
-    const y = (ev.clientY  - rect.top);
-
-    return { x, y };
-  }
-
-  cancelTouchDefault(ev: Event) {
-    ev.preventDefault();
-  }
-
 
   loadUsers(){
     this.apiSvc.getSystemSetting().subscribe({

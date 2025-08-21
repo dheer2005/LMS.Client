@@ -37,7 +37,6 @@ export class SystemSettingService {
   }
 
   getSettings(): Observable<SystemSetting> {
-    // if already loaded return BehaviorSubject as observable, otherwise load
     if (!this.settingSubject.value) {
       return this.loadSettings();
     }

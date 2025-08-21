@@ -403,7 +403,7 @@
             <i class="fas fa-signature me-2"></i>Draw Your Signature
           </h5>
           <button 
-            type="button" 
+            type="button"
             class="btn-close btn-close-white" 
             data-bs-dismiss="modal" 
             (click)="closeCanvasModalonCross()"
@@ -419,20 +419,6 @@
           </div>
           
           <div class="signature-canvas-container border rounded p-2 bg-white">
-            <!-- <canvas
-              #signatureCanvas
-              class="signature-canvas w-100"
-              style="height:200px; touch-action: none; cursor: crosshair;"
-              (pointerdown)="startDraw($event)"
-              (pointermove)="draw($event)"
-              (pointerup)="endDraw()"
-              (pointerleave)="endDraw()"
-              (touchstart)="cancelTouchDefault($event)"
-              (touchmove)="cancelTouchDefault($event)"
-              (touchend)="cancelTouchDefault($event)"
-              aria-label="Signature drawing canvas">
-            </canvas> -->
-
             <canvas
               #signatureCanvas
               class="w-100"

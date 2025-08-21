@@ -3,7 +3,8 @@
   justify-content: center;
   align-items: center;
   min-height: 85vh;
-  background: linear-gradient(135deg, #f8fafc, #e0f2fe);
+  // background: linear-gradient(135deg, #f8fafc, #e0f2fe);
+  background: var(--background-color);
   padding: 20px;
 }
 
@@ -59,7 +60,7 @@
   margin-top: 20px;
   padding: 18px;
   border-radius: 12px;
-  background: #f1f5f9;
+  background: var(--background-color);
   text-align: left;
 }
 
