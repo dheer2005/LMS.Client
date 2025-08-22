@@ -5,7 +5,7 @@
 
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <div class="col" *ngFor="let progress of progressData">
-      <div class="card shadow-sm border-0 h-100">
+      <div class="card shadow-sm border-1 h-100">
         <div class="card-body">
           <h5 class="card-title text-dark fw-semibold fs-5" style="height: 50px;">
             <i class="fas fa-book-reader me-2 text-secondary"></i> {{ progress.courseTitle }}
@@ -35,8 +35,8 @@
             </div>
           </div>
 
-          <div class="btn-div text-center " style="margin-left: 8px;">
-            <button class="mt-2 w-100 btn btn-outline-primary" [routerLink]="['/certificate', progress.courseId]">
+          <div  class="btn-div text-center " style="margin-left: 8px; width: 19.2rem;">
+            <button *ngIf="progress.completionPercentage === 100" class="mt-2 w-100 btn btn-outline-primary" [routerLink]="['/certificate', progress.courseId]">
               Get Certificate
             </button>
   
