@@ -16,7 +16,7 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
 
   formRegistration:any;
   isLoggedIn = this.authSvc.isLoggedIn();
-  register = { fullName: '', email: '', isEmailVerified: false , password: '', role: 'Student' };
+  register = { fullName: '', email: '', isEmailVerified: false , password: '', signature: '' , role: 'Student' };
   email = { emailTo: '', subject: '', body: '', userName: '' }
 
   otp:any;
@@ -44,7 +44,16 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
           ...this.register,
           isEmailVerified: true
         }
-        this.apiSvc.register(this.register).subscribe({
+        const form = new FormData();
+        form.append('fullName', this.register.fullName);
+        form.append('email', this.register.email);
+        form.append('isEmailVerified', this.register.isEmailVerified.toString());
+        form.append('password', this.register.password);
+        form.append('role', this.register.role);
+        if (this.register.signature) {
+          form.append('signature', this.register.signature);
+        }
+        this.apiSvc.register(form).subscribe({
           next: (data:any)=>{
             this.toastrSvc.success('User registered');
             if(this.isLoggedIn){

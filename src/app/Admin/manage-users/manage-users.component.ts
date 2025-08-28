@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'src/app/Services/api.service';
 import { ElementRef, ViewChild } from '@angular/core';
-import { Popover } from 'bootstrap';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -152,7 +151,15 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
 
   onRegister(form: NgForm) {
     if(this.requireEmailVerification){
-      this.apiSvc.AlreadyExists(this.registerTeacherData).subscribe({
+      const formData = new FormData();
+      formData.append('fullname', this.registerTeacherData.fullName);
+      formData.append('email', this.registerTeacherData.email);
+      formData.append('password', this.registerTeacherData.password);
+      formData.append('role', this.registerTeacherData.role);
+      if (this.selectedThumbnailFile) {
+        formData.append('signature', this.selectedThumbnailFile);
+      }
+      this.apiSvc.AlreadyExists(formData).subscribe({
         next: (res:any)=>{
           this.email = {
             emailTo: this.registerTeacherData.email,
@@ -160,28 +167,32 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
             body: '',
             userName: this.registerTeacherData.fullName
           }
-          const formData = new FormData();
-          formData.append('fullname', this.registerTeacherData.fullName);
-          formData.append('email', this.registerTeacherData.email);
-          formData.append('password', this.registerTeacherData.password);
-          formData.append('role', this.registerTeacherData.role);
-          if (this.selectedThumbnailFile) {
-            formData.append('signature', this.selectedThumbnailFile);
-          }
+          
           this.apiSvc.SendEmail(this.email).subscribe({
             next: (data:any)=>{
-              this.router.navigateByUrl('/verify', {state:{registerObj: formData, formReg: true, emailObj: this.email}});
+              this.router.navigateByUrl('/verify', {
+                state: {
+                  registerObj: {
+                    ...this.registerTeacherData,
+                    signature: this.selectedThumbnailFile
+                  },
+                  formReg: true,
+                  emailObj: this.email
+                }
+              });
               if(this.fileInputRef){
                 this.fileInputRef.nativeElement.value = '';
               }
               this.toastrSvc.success("Email verification code sent successfully");
             },
             error: (err:any)=>{
+              console.log("email",err);
               this.toastrSvc.warning(err.error.message, 'Email');
             }
           });
         },
         error: (err:any)=>{
+          console.log("already exist",err);
           this.toastrSvc.warning(err.error.message);
         }
       })
@@ -220,14 +231,21 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
       <b>Role:</b> ${user.role}
     `;
 
-    const popover = Popover.getInstance(element) || new Popover(element, {
-      content: content,
-      html: true,
-      placement: 'left',
-      trigger: 'focus'
-    });
+    // ✅ Use Bootstrap Popover from CDN
+    const bootstrap = (window as any).bootstrap;
+    let popover = bootstrap.Popover.getInstance(element);
 
-    popover.setContent({ '.popover-body': content });
+    if (!popover) {
+      popover = new bootstrap.Popover(element, {
+        content: content,
+        html: true,
+        placement: 'left',
+        trigger: 'focus'
+      });
+    } else {
+      popover.setContent({ '.popover-body': content });
+    }
+
     popover.show();
   }
 

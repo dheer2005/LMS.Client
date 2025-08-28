@@ -13,7 +13,7 @@ import { json } from 'stream/consumers';
 })
 export class RegisterComponent implements OnInit {
 
-  registerData = { fullName: '', email: '', isEmailVerified: false, password: '', role: 'Student' };
+  registerData = { fullName: '', email: '', isEmailVerified: false, password: '', signature: ' ', role: 'Student' };
   
   confirmPassword: string = '';
   showOtpForm = false;
@@ -41,7 +41,14 @@ export class RegisterComponent implements OnInit {
   onRegister() {
     this.processing = true;
     if(this.requireEmailVerification){
-      this.apiSvc.AlreadyExists(this.registerData).subscribe({
+      const form = new FormData();
+      form.append('fullName', this.registerData.fullName);
+      form.append('email', this.registerData.email);
+      form.append('isEmailVerified', this.registerData.isEmailVerified.toString());
+      form.append('password', this.registerData.password);
+      form.append('signature', this.registerData.signature);
+      form.append('role', this.registerData.role); 
+      this.apiSvc.AlreadyExists(form).subscribe({
         next: (res:any)=>{
           this.email = {
             emailTo: this.registerData.email,
@@ -56,17 +63,27 @@ export class RegisterComponent implements OnInit {
               this.toastSvc.success("Email verification code sent successfully");
             },
             error: (err:any)=>{
+              console.log("send email",err);
               this.processing = false;
               this.toastSvc.warning(err.error.message, 'Email');
             }
           });
         },
         error: (err:any)=>{
+          console.log("already exist",err);
+          this.processing = false;
           this.toastSvc.warning(err.error.message);
         }
       })
     }else{
-      this.apiSvc.register(this.registerData).subscribe({
+      const form = new FormData();
+      form.append('fullName', this.registerData.fullName);
+      form.append('email', this.registerData.email);
+      form.append('isEmailVerified', this.registerData.isEmailVerified.toString());
+      form.append('password', this.registerData.password);
+      form.append('signature', this.registerData.signature);
+      form.append('role', this.registerData.role); 
+      this.apiSvc.register(form).subscribe({
         next: (res:any) => {
           this.processing = false;
           this.toastSvc.success('Registered successfully', 'Registered');
@@ -74,6 +91,7 @@ export class RegisterComponent implements OnInit {
         },
         error: (err:any) => {
           this.processing = false;
+          console.log(err);
           this.toastSvc.error(`${JSON.stringify(err.error.message)}`,'Registration failed');
         }
       });

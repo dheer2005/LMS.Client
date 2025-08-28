@@ -2,18 +2,18 @@
   <h3 class="mb-4">{{ quiz.title }}</h3>
 
   <form *ngIf="userRole === 'Student' && !scoreResult" (ngSubmit)="submitQuiz()">
-    <div *ngFor="let q of quiz.questions" class="mb-4">
+    <div *ngFor="let q of quiz.questions" class="mb-4" >
       <h5>{{ q.questionText }}</h5>
       <div class="d-flex flex-column gap-2">
         <div
           *ngFor="let opt of ['A', 'B', 'C', 'D']"
           (click)="answers[q.questionId] = opt"
-          class="p-2 border rounded selectable-option"
+          class="p-2 border rounded selectable-option chotaDiv"
           [ngClass]="{
             'bg-primary text-white': answers[q.questionId] === opt,
             'bg-light': answers[q.questionId] !== opt
           }"
-          style="cursor: pointer"
+          style="cursor: pointer;"
         >
           <strong>{{ opt }}.</strong> {{ q['option' + opt] }}
         </div>
