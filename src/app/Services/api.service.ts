@@ -135,8 +135,8 @@ export class ApiService {
     return this.http.get(`${this.ApiUrl}Admin/get-systemSetting`);
   }
 
-  AlreadyExists(data:any){
-    return this.http.post(`${this.ApiUrl}Auth/AlreadyExists`, data);
+  AlreadyExists(email:string){
+    return this.http.get(`${this.ApiUrl}Auth/AlreadyExists/${email}`);
   }
 
 

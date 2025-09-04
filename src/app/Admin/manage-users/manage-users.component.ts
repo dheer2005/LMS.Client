@@ -151,15 +151,7 @@ export class ManageUsersComponent implements OnInit, AfterViewInit {
 
   onRegister(form: NgForm) {
     if(this.requireEmailVerification){
-      const formData = new FormData();
-      formData.append('fullname', this.registerTeacherData.fullName);
-      formData.append('email', this.registerTeacherData.email);
-      formData.append('password', this.registerTeacherData.password);
-      formData.append('role', this.registerTeacherData.role);
-      if (this.selectedThumbnailFile) {
-        formData.append('signature', this.selectedThumbnailFile);
-      }
-      this.apiSvc.AlreadyExists(formData).subscribe({
+      this.apiSvc.AlreadyExists(this.registerTeacherData.email).subscribe({
         next: (res:any)=>{
           this.email = {
             emailTo: this.registerTeacherData.email,
