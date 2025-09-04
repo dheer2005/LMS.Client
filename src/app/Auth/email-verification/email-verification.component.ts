@@ -50,9 +50,7 @@ export class EmailVerificationComponent implements OnInit, AfterViewInit {
         form.append('isEmailVerified', this.register.isEmailVerified.toString());
         form.append('password', this.register.password);
         form.append('role', this.register.role);
-        if (this.register.signature) {
-          form.append('signature', this.register.signature);
-        }
+        form.append('signature', this.register.signature);
         this.apiSvc.register(form).subscribe({
           next: (data:any)=>{
             this.toastrSvc.success('User registered');
