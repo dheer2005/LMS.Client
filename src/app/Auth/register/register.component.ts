@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
       form.append('isEmailVerified', this.registerData.isEmailVerified.toString());
       form.append('password', this.registerData.password);
       form.append('role', this.registerData.role); 
-      // form.append('signature', this.registerData.signature);
+      form.append('signature', '');
       this.apiSvc.AlreadyExists(form).subscribe({
         next: (res:any)=>{
           this.email = {
