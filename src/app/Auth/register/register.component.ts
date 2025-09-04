@@ -59,7 +59,10 @@ export class RegisterComponent implements OnInit {
           this.apiSvc.SendEmail(this.email).subscribe({
             next: (data:any)=>{
               this.processing = false;
-              this.router.navigateByUrl('/verify', {state:{registerObj: this.registerData, formReg: true, emailObj: this.email}});
+              this.router.navigateByUrl('/verify', {state:{registerObj: {
+                    ...this.registerData,
+                    signature: ''
+                  }, formReg: true, emailObj: this.email}});
               this.toastSvc.success("Email verification code sent successfully");
             },
             error: (err:any)=>{
