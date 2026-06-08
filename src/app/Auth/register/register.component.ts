@@ -13,7 +13,7 @@ import { json } from 'stream/consumers';
 })
 export class RegisterComponent implements OnInit {
 
-  registerData = { fullName: '', email: '', isEmailVerified: false, password: '', signature: ' ', role: 'Student' };
+  registerData: any = { fullName: '', email: '', isEmailVerified: false, password: '', signature: null, role: 'Student' };
   
   confirmPassword: string = '';
   showOtpForm = false;
@@ -38,8 +38,23 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  onSignatureSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      this.registerData.signature = target.files[0];
+    } else {
+      this.registerData.signature = null;
+    }
+  }
+
   onRegister() {
     this.processing = true;
+    if (!this.registerData.signature) {
+      this.processing = false;
+      this.toastSvc.warning('Signature is required', 'Registration');
+      return;
+    }
+
     if(this.requireEmailVerification){
       this.apiSvc.AlreadyExists(this.registerData.email).subscribe({
         next: (res:any)=>{
@@ -53,8 +68,7 @@ export class RegisterComponent implements OnInit {
             next: (data:any)=>{
               this.processing = false;
               this.router.navigateByUrl('/verify', {state:{registerObj: {
-                    ...this.registerData,
-                    signature: ''
+                    ...this.registerData
                   }, formReg: true, emailObj: this.email}});
               this.toastSvc.success("Email verification code sent successfully");
             },
@@ -77,7 +91,9 @@ export class RegisterComponent implements OnInit {
       form.append('email', this.registerData.email);
       form.append('isEmailVerified', this.registerData.isEmailVerified.toString());
       form.append('password', this.registerData.password);
-      form.append('signature', this.registerData.signature);
+      if (this.registerData.signature) {
+        form.append('signature', this.registerData.signature);
+      }
       form.append('role', this.registerData.role); 
       this.apiSvc.register(form).subscribe({
         next: (res:any) => {

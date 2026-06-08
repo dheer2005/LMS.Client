@@ -54,6 +54,19 @@
       </div>
 
       <div class="mb-3">
+        <label for="signature" class="form-label">Signature</label>
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onSignatureSelected($event)"
+          class="form-control"
+          id="signature" />
+        <div *ngIf="registerForm.submitted && !registerData.signature" class="text-danger small mt-1">
+          Signature is required.
+        </div>
+      </div>
+
+      <div class="mb-3">
         <label for="confirmPassword" class="form-label">Confirm Password</label>
         <input
           type="password"
